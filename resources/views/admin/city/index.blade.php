@@ -48,7 +48,6 @@
         <x-forms.select-ajax title="Negara" name="country" />
         <x-forms.select-ajax title="Provinsi" name="provinsi" />
         <x-forms.text title="Nama Kota" name="name" />
-        <x-forms.text title="Nama Kota" name="name" />
     </x-modal-form>
 
 
