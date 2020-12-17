@@ -20,7 +20,7 @@ class CreateCustomersTable extends Migration
             $table->string('password');
             $table->string('email');
             $table->string('phone');
-            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('company_id')->nullable();
             $table->string('status')->default(1);
             $table->timestamps();
             $table->softDeletes();

@@ -28,15 +28,17 @@ class HomeController extends Controller
     {
         $users = User::count();
 
-        $workers = Worker::count();
+        $workers = Worker::where('type', 'internal')->count();
+
+        $outsource = Worker::where('type', 'external')->count();
 
         $customers = Customer::count();
 
         $widget = [
             'users' => $users,
             'customers' => $customers,
-            'workers' => $workers
-            //...
+            'workers' => $workers,
+            'outsources' => $outsource
         ];
 
         return view('admin.dashboard', compact('widget'));

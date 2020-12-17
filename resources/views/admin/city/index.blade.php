@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @push('styles')
-    <link rel="stylesheet" href="{{asset('vendor/datatables/dataTables.bootstrap4.min.css')}}">
+
 @endpush
 
 @section('main-content')
@@ -55,8 +55,6 @@
 @endsection
 
 @push('plugins')
-    <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}" ></script>
-    <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
     <script>
         var dtTable;
         $(document).ready(function() {

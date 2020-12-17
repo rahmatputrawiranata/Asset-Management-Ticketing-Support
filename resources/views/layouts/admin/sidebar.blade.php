@@ -2,9 +2,9 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url('/')}}">
+            <div class="sidebar-brand-icon">
+                <img src="{{ asset('img/favicon.png') }}" width="100%" height="auto"/>
             </div>
             <div class="sidebar-brand-text mx-3">{{config('app.name', 'Laravel')}}</div>
         </a>
@@ -71,6 +71,7 @@
                     <a class="collapse-item {{Nav::isRoute('country')}}" href="{{route('country')}}">{{__('Negara')}}</a>
                     <a class="collapse-item {{Nav::isRoute('region')}}" href="{{route('region')}}">{{__('Provinsi')}}</a>
                     <a class="collapse-item {{Nav::isRoute('city')}}" href="{{route('city')}}">{{__('Kota')}}</a>
+                    <a class="collapse-item {{Nav::isRoute('branch')}}" href="{{route('branch')}}">{{__('Cabang')}}</a>
                 </div>
             </div>
         </li>

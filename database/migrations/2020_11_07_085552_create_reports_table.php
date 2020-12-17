@@ -20,7 +20,7 @@ class CreateReportsTable extends Migration
             $table->string('severity_code');
             $table->unsignedBigInteger('device_id');
             $table->unsignedBigInteger('customer_id');
-            $table->string('worker_type')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('worker_id')->nullable();
             $table->string('branch_code');
             $table->longText('report_notes');
@@ -33,6 +33,7 @@ class CreateReportsTable extends Migration
             $table->foreign('branch_code')->references('code')->on('branches');
             $table->foreign('worker_id')->references('id')->on('workers');
             $table->foreign('device_id')->references('id')->on('devices');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

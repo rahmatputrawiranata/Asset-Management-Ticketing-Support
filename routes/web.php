@@ -57,5 +57,6 @@ Route::group(['prefix' => 'data-lokasi'], function () {
 
     Route::group(['prefix' => 'branch', 'namespace' => 'Admin'], function() {
         Route::get('/', 'BranchController@index')->name('branch');
+        Route::get('/data', 'BranchController@data')->name('branch.data');
     });
 });

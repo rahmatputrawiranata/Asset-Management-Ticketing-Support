@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Country;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,6 +12,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        $this->call([
+            UserSeeder::class,
+            CountrySeeder::class,
+            ProvinceSeeder::class,
+            CitySeeder::class,
+            BranchSeeder::class,
+            CompanySeeder::class,
+            CustomerSeeder::class,
+            WorkerSeeder::class,
+        ]);
     }
 }
