@@ -21,7 +21,17 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="{{asset('vendor/datatables/dataTables.bootstrap4.min.css')}}">
+    <link
+        rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+        type="text/css"
+        />
     <!-- Custom Styles for spesific pages -->
+    <style>
+        canvas.mapboxgl-canvas {
+            width: 100% !important;
+        }
+    </style>
 
     @stack('styles')
 
@@ -103,6 +113,8 @@
 
 <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}" ></script>
 <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+
 
 <script>
     $(document).ready(function() {
@@ -110,6 +122,7 @@
 
         });
     })
+
 
     function optionData(url, id, selected = null) {
         var el = id;
@@ -141,6 +154,6 @@
 <!-- Custom Plugin -->
 
 @stack('plugins')
-<script src="{{ asset('js/core.js') }}"></script>
+<scrip src="{{ asset('js/core.js') }}"></scrip>
 </body>
 </html>

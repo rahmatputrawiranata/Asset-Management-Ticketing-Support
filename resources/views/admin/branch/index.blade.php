@@ -38,17 +38,67 @@
         <x-forms.select-ajax title="Provinsi" name="provinsi" />
         <x-forms.select-ajax title="Kota" name="kota" />
         <x-forms.text title="Code" name="code" />
-        <x-forms.text title="Nama Kota" name="name" />
+        <x-forms.text title="Nama Cabang" name="name"/>
+        <x-forms.text title="Enginer On Site" name="eos"/>
+        <x-forms.text title="Enginer On Site Phone Number" name="eos_number"/>
+        <x-forms.text title="People In Charge" name="pic"/>
+        <x-forms.text title="People In Charge Phone Number" name="pic_number"/>
+        <x-forms.text title="People In Charge GA" name="pic_ga"/>
+        <x-forms.text title="People In Charge GA Phone Number" name="pic_ga_number"/>
         <x-forms.text-area title="Alamat Detail" name="address"/>
-        <x-forms.select-ajax title="Enginer On Site" name="enginer_on_site"/>
-        <x-forms.select-ajax title="People In Charge" name="pic"/>
-        <x-forms.select-ajax title="People In Charge GA" name="pic_ga"/>
+        <x-forms.map/>
     </x-modal-form>
 
 @endsection
 
 @push('plugins')
     <script>
+
+        // Map Box
+
+        mapboxgl.accessToken = 'pk.eyJ1IjoieXVuaWFyZHMiLCJhIjoiY2tjcmpmMHBxMDZidjJ6bzRkajl5Mzg4aSJ9.Spqh3c8-cTVHpCeHfz-AMw';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center : [106.865036, -6.175110], //long , lat
+            zoom : 14
+        });
+
+        var marker = new mapboxgl.Marker({
+            draggable : true,
+        })
+        .setLngLat([106.865036, -6.175110])
+        .addTo(map)
+
+        var geocoder = new MapboxGeocoder({
+            accessToken : mapboxgl.accessToken,
+            mapboxgl : mapboxgl,
+            marker : false
+        })
+
+        map.addControl(geocoder)
+
+        marker.on('dragend', function(res) {
+            const center = res.target._lngLat
+            mapboxSetCenter(center.lng, center.lat)
+        })
+
+        geocoder.on('result', function(ev) {
+            mapboxSetCenter(ev.result.center[0], ev.result.center[1])
+        });
+
+        function mapboxSetCenter(long, lat) {
+            map.flyTo({
+                center : [
+                    long, lat
+                ]
+            })
+            marker.setLngLat([long, lat])
+
+            $('input[name=latitude]').val(lat)
+            $('input[name=longitude]').val(long)
+        }
+
         var dtTable;
         $(document).ready(function() {
             //Data Table
@@ -99,12 +149,25 @@
             $(document).on('click', '.btn-edit', function() {
                 const form = $(this).attr('data-id')
                 optionData('/api/data-lokasi/country/select-data', 'select#country', JSON.parse(form).countries_id)
+                optionData('/api/data-lokasi/province/select-data/' + JSON.parse(form).province_id, 'select#provinsi', JSON.parse(form).province_id)
+                optionData('/api/data-lokasi/city/select-data/' + JSON.parse(form).city_id, 'select#kota', JSON.parse(form).city_id)
                 $('#modalTitle').html('Edit Data Provinsi')
+                $('input[name="code"]').val(JSON.parse(form).code)
                 $('input[name="name"]').val(JSON.parse(form).name)
+                $('input[name="eos"]').val(JSON.parse(form).eos)
+                $('input[name="eos_number"]').val(JSON.parse(form).eos_number)
+                $('input[name="pic"]').val(JSON.parse(form).pic)
+                $('input[name="pic_number"]').val(JSON.parse(form).pic_number)
+                $('input[name="pic_ga"]').val(JSON.parse(form).pic_ga)
+                $('input[name="pic_ga_number"]').val(JSON.parse(form).pic_ga_number)
+
+                $('textarea[name="address"]').val(JSON.parse(form).address)
+                mapboxSetCenter(JSON.parse(form).longitude, JSON.parse(form).latitude)
                 $('#data-form-modal-table').attr('action', '/data-lokasi/region/' + JSON.parse(form).id)
                 $('#modal-form-centered').modal('show')
-                $('select#country').val(JSON.parse(form).countries_id)
-                $('select#country').trigger('change')
+
+                // $('select#country').val(JSON.parse(form).countries_id)
+                // $('select#country').trigger('change')
                 $('#btn-save').addClass("btn-save-edit")
             })
 
@@ -119,9 +182,6 @@
                 $('select#kota').val()
                 optionData('/api/data-lokasi/city/select-data/' + $(this).val(), 'select#kota')
             })
-
-
-
 
         })
     </script>
