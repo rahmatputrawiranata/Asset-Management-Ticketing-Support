@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <x-modal-form name="Data Negara Kita">
+    <x-modal-form name="Data Cabang">
         <x-forms.select-ajax title="Negara" name="country" />
         <x-forms.select-ajax title="Provinsi" name="provinsi" />
         <x-forms.select-ajax title="Kota" name="kota" />
@@ -121,7 +121,7 @@
                                 return  '<button class="btn btn-edit btn-circle btn-sm btn-primary" data-id=\'' + JSON.stringify(row) + '\'>'
                                         +'<i class="fas fa-pen"></i>'
                                         +'</button> '
-                                        +'<button class="btn data-form-delete-button btn-sm btn-circle btn-danger" data-action="/data-lokasi/country/delete" data-id=\'' + JSON.stringify(row) + '\'>'
+                                        +'<button class="btn data-form-delete-button btn-sm btn-circle btn-danger" data-action="/data-lokasi/branch/delete" data-id=\'' + JSON.stringify(row) + '\'>'
                                         +'<i class="fas fa-trash"></i>'
                                         +'</button>'
                             }
@@ -136,7 +136,7 @@
                 $('#data-form-modal-table')[0].reset()
                 optionData('/api/data-lokasi/country/select-data', 'select#country')
                 $('#modalTitle').html('Buat Data Cabang')
-                $('#data-form-modal-table').attr('action', '/data-lokasi/region')
+                $('#data-form-modal-table').attr('action', '/data-lokasi/branch')
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-new")
                 $('select#country').val()
@@ -151,7 +151,7 @@
                 optionData('/api/data-lokasi/country/select-data', 'select#country', JSON.parse(form).countries_id)
                 optionData('/api/data-lokasi/province/select-data/' + JSON.parse(form).province_id, 'select#provinsi', JSON.parse(form).province_id)
                 optionData('/api/data-lokasi/city/select-data/' + JSON.parse(form).city_id, 'select#kota', JSON.parse(form).city_id)
-                $('#modalTitle').html('Edit Data Provinsi')
+                $('#modalTitle').html('Edit Data Cabang')
                 $('input[name="code"]').val(JSON.parse(form).code)
                 $('input[name="name"]').val(JSON.parse(form).name)
                 $('input[name="eos"]').val(JSON.parse(form).eos)
@@ -163,7 +163,7 @@
 
                 $('textarea[name="address"]').val(JSON.parse(form).address)
                 mapboxSetCenter(JSON.parse(form).longitude, JSON.parse(form).latitude)
-                $('#data-form-modal-table').attr('action', '/data-lokasi/region/' + JSON.parse(form).id)
+                $('#data-form-modal-table').attr('action', '/data-lokasi/branch/' + JSON.parse(form).id)
                 $('#modal-form-centered').modal('show')
 
                 // $('select#country').val(JSON.parse(form).countries_id)
@@ -181,6 +181,63 @@
             $('select#provinsi').on('change', function() {
                 $('select#kota').val()
                 optionData('/api/data-lokasi/city/select-data/' + $(this).val(), 'select#kota')
+            })
+
+                        //Create or Update Global
+
+                        $('form').on('submit', function(e) {
+                e.preventDefault()
+
+                form = $(this).serialize()
+                $.ajax({
+                    url : $(this).attr('action'),
+                    type : 'POST',
+                    cache : false,
+                    data : form,
+                    success : function(data) {
+                        toastr.success('Success !!')
+                        $('#modal-form-centered').modal('hide')
+                        dtTable.draw()
+                    },
+                    error : function(err) {
+                        toastr.error('Error !!')
+                    }
+                })
+            })
+
+            //Delete Function Global
+
+            $(document).on('click', 'button.data-form-delete-button', function(e) {
+                e.preventDefault()
+
+                Swal.fire({
+                    icon : 'warning',
+                    title : 'Konfirmasi Delete Data',
+                    text : 'Apakah anda yakin ingin menghapus data ini!!',
+                    preConfirm : (res) => {
+                    return fetch($(this).data('action'), {
+                        method : 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body : JSON.stringify({
+                            id : $(this).data('id').id
+                        })
+                    })
+                    .then(res => {
+                        if(!res.ok) {
+                            throw new Error(res.statusText)
+                        }
+                        toastr.success('Successfully Delete Data!!')
+                        dtTable.draw()
+                    })
+                    .catch(err => {
+                        toastr.error("Error Deleting data!!")
+                    })
+                }
+                })
             })
 
         })

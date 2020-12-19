@@ -1,7 +1,7 @@
 <div class="modal fade" id="modal-form-centered" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form id="data-form-modal-table" enctype="multipart/form-data">
+            <form id="data-form-modal-table"  enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTitle"></h5>

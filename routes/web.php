@@ -60,7 +60,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix' => 'branch', 'namespace' => 'Admin'], function() {
             Route::get('/', 'BranchController@index')->name('branch');
+            Route::post('/', 'BranchController@store')->name('branch.store');
             Route::get('/data', 'BranchController@data')->name('branch.data');
+
         });
     });
 

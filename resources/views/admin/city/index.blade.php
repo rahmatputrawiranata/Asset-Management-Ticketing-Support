@@ -89,7 +89,7 @@
                             return  '<button class="btn btn-edit btn-circle btn-sm btn-primary" data-id=\'' + JSON.stringify(row) + '\'>'
                                     +'<i class="fas fa-pen"></i>'
                                     +'</button> '
-                                    +'<button class="btn data-form-delete-button btn-sm btn-circle btn-danger" data-action="/data-lokasi/country/delete" data-id=\'' + JSON.stringify(row) + '\'>'
+                                    +'<button class="btn data-form-delete-button btn-sm btn-circle btn-danger" data-action="/data-lokasi/city/delete" data-id=\'' + JSON.stringify(row) + '\'>'
                                     +'<i class="fas fa-trash"></i>'
                                     +'</button>'
                         }
@@ -129,6 +129,63 @@
             //Update On Select
             $('select#country').on('change', function() {
                 optionData('/api/data-lokasi/province/select-data/' + $(this).val(), 'select#provinsi')
+            })
+
+                        //Create or Update Global
+
+                        $('form').on('submit', function(e) {
+                e.preventDefault()
+
+                form = $(this).serialize()
+                $.ajax({
+                    url : $(this).attr('action'),
+                    type : 'POST',
+                    cache : false,
+                    data : form,
+                    success : function(data) {
+                        toastr.success('Success !!')
+                        $('#modal-form-centered').modal('hide')
+                        dtTable.draw()
+                    },
+                    error : function(err) {
+                        toastr.error('Error !!')
+                    }
+                })
+            })
+
+            //Delete Function Global
+
+            $(document).on('click', 'button.data-form-delete-button', function(e) {
+                e.preventDefault()
+
+                Swal.fire({
+                    icon : 'warning',
+                    title : 'Konfirmasi Delete Data',
+                    text : 'Apakah anda yakin ingin menghapus data ini!!',
+                    preConfirm : (res) => {
+                    return fetch($(this).data('action'), {
+                        method : 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body : JSON.stringify({
+                            id : $(this).data('id').id
+                        })
+                    })
+                    .then(res => {
+                        if(!res.ok) {
+                            throw new Error(res.statusText)
+                        }
+                        toastr.success('Successfully Delete Data!!')
+                        dtTable.draw()
+                    })
+                    .catch(err => {
+                        toastr.error("Error Deleting data!!")
+                    })
+                }
+                })
             })
         })
 
