@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DeviceController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'profile', 'namespace' => 'Admin'], function() {
         Route::get('/', 'ProfileController@index')->name('profile');
         Route::post('/', 'ProfileController@update')->name('profile.update');
+    });
+
+    Route::group(['prefix' => 'device'], function () {
+        Route::get('/', 'DeviceController@index')->name('device');
     });
 
     Route::group(['prefix' => 'data-lokasi'], function () {

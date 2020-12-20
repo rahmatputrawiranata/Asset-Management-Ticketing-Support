@@ -20,6 +20,7 @@ class CreateDevicesTable extends Migration
             $table->longText('spesification');
             $table->string('notes');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
