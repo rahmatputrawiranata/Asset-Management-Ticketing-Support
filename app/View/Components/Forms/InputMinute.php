@@ -4,7 +4,7 @@ namespace App\View\Components\Forms;
 
 use Illuminate\View\Component;
 
-class Select extends Component
+class InputMinute extends Component
 {
     /**
      * Create a new component instance.
@@ -12,17 +12,14 @@ class Select extends Component
      * @return void
      */
 
-    public $title;
-
     public $name;
 
-    public $options;
+    public $title;
 
-    public function __construct($title, $name, $options = [])
+    public function __construct($title, $name)
     {
         $this->title = $title;
         $this->name = $name;
-        $this->options = $options;
     }
 
     /**
@@ -32,6 +29,6 @@ class Select extends Component
      */
     public function render()
     {
-        return view('components.forms.select');
+        return view('components.forms.input-minute');
     }
 }

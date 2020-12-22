@@ -3,33 +3,49 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Device;
+use App\Models\Severity;
+use App\Models\SeverityConfiguration;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class DeviceController extends Controller
+class SeverityController extends Controller
 {
     public function index() {
-        return view('admin.device.index');
+        return view('admin.severity.index');
     }
 
     public function data() {
         return datatables()
-                ->of(Device::all())
+                ->of(SeverityConfiguration::all())
                 ->addIndexColumn()
                 ->make();
+    }
+
+    public function selectDataFormat() {
+        $data = $this->createSelectDataFormat(
+            SeverityConfiguration::get(),
+            'id',
+            'name'
+        );
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Success',
+            'status_code' => 200,
+            'data' => $data
+        ], 200);
     }
 
     public function create(Request $request) {
 
         DB::beginTransaction();
         try {
-            $data = new Device();
-            $data->device_code = $request->device_code;
-            $data->device_model = $request->device_model;
-            $data->spesification = $request->spesification;
-            $data->notes = $request->notes;
+            $data = new SeverityConfiguration();
+            $data->name = $request->name;
+            $data->response_time = $request->response_time;
+            $data->hardware_time = $request->hardware_time;
+            $data->software_time = $request->software_time;
             $data->save();
 
         }catch(Exception $e){
@@ -56,11 +72,11 @@ class DeviceController extends Controller
 
         DB::beginTransaction();
         try{
-            $data = Device::find($id);
-            $data->device_code = $request->device_code;
-            $data->device_model = $request->device_model;
-            $data->spesification = $request->spesification;
-            $data->notes = $request->notes;
+            $data = SeverityConfiguration::find($id);
+            $data->name = $request->name;
+            $data->response_time = $request->response_time;
+            $data->hardware_time = $request->hardware_time;
+            $data->software_time = $request->software_time;
             $data->save();
         }catch(Exception $e) {
             DB::rollback();
@@ -83,7 +99,7 @@ class DeviceController extends Controller
     public function delete(Request $request) {
         DB::beginTransaction();
         try{
-            $data = Device::find($request->id);
+            $data = SeverityConfiguration::find($request->id);
             $data->delete();
         }catch(Exception $e) {
             DB::rollback();

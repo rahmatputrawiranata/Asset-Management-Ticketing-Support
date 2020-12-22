@@ -16,9 +16,9 @@ class CreateSeverityConfigurationsTable extends Migration
         Schema::create('severity_configurations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->time('response_time')->nullable();
-            $table->time('software_time')->nullable();
-            $table->time('hardware_time')->nullable();
+            $table->bigInteger('response_time')->nullable();
+            $table->bigInteger('software_time')->nullable();
+            $table->bigInteger('hardware_time')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

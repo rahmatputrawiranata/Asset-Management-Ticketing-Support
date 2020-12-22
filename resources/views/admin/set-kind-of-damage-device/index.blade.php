@@ -5,7 +5,7 @@
 @endpush
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Device') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Set Up Kind Of Damage Device') }}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -19,7 +19,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="d-flex flex-column flex-sm-column flex-md-row justify-content-md-between">
-                    <h6 class="m-0 font-weight-bold text-primary">{{__('Data Device')}}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{__('Data Set Up Kind Of Damage Device')}}</h6>
                     <div>
                         <button class="btn btn-primary btn-add btn-icon-split" type="button" >
                             <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
@@ -33,8 +33,10 @@
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
                         <th>No. </th>
-                        <th>Device Code</th>
-                        <th>Device Model</th>
+                        <th>Item Details</th>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Severity</th>
                         <th class="action-data">Action</th>
                     </thead>
                     <tbody>
@@ -44,11 +46,17 @@
         </div>
     </div>‹
 
-    <x-modal-form name="Data Device Kita">
-        <x-forms.text title="Device Code" name="device_code" />
-        <x-forms.text title="Device Model" name="device_model" />
-        <x-forms.textarea title="Spesification" name="spesification" />
-        <x-forms.textarea title="Notes" name="notes" />
+    <x-modal-form name="Data Set Up Kind Of Damage Device Kita">
+        <x-forms.text title="Item Details" name="name" />
+        <x-forms.select-ajax title="Item" name="item_id"/>
+        <x-forms.select
+            title="Category"
+            name="category"
+        >
+            <option value="hardware">Hardware</option>
+            <option value="software">Software</option>
+        </x-forms.select>
+        <x-forms.select-ajax title="Severity" name="severity_configuration_id"/>
     </x-modal-form>
 
 
@@ -66,11 +74,13 @@
             dtTable = $('#table-data').DataTable({
                 processing : true,
                 serverSide : true,
-                ajax : 'device/data',
+                ajax : 'kind-of-damage-type/data',
                 columns : [
                     {data : 'DT_RowIndex', name : 'DT_RowIndex', "width" : "5%"},
-                    {data : 'device_code', name : 'device_code'},
-                    {data : 'device_model', name : 'device_model'},
+                    {data : 'name', name : 'name'},
+                    {data : 'item', name : 'item'},
+                    {data : 'category', name : 'category'},
+                    {data : 'severity', name : 'severity'},
                     {data : 'id', name: 'id'}
                 ],
                 columnDefs : [
@@ -84,7 +94,7 @@
                             return  '<button class="btn btn-edit btn-circle btn-sm btn-primary" data-id=\'' + JSON.stringify(row) + '\'>'
                                     +'<i class="fas fa-pen"></i>'
                                     +'</button> '
-                                    +'<button class="btn data-form-delete-button btn-sm btn-circle btn-danger" data-action="/device/delete" data-id=\'' + JSON.stringify(row) + '\'>'
+                                    +'<button class="btn data-form-delete-button btn-sm btn-circle btn-danger" data-action="/kind-of-damage-type/delete" data-id=\'' + JSON.stringify(row) + '\'>'
                                     +'<i class="fas fa-trash"></i>'
                                     +'</button>'
                         }
@@ -94,20 +104,26 @@
 
             $(document).on('click', '.btn-edit', function() {
                 const form = $(this).attr('data-id')
-                $('#modalTitle').html('Edit Data Device')
-                $('.form-control[name="device_code"]').val(JSON.parse(form).device_code)
-                $('.form-control[name="device_model"]').val(JSON.parse(form).device_model)
-                $('.form-control[name="spesification"]').val(JSON.parse(form).spesification)
-                $('.form-control[name="notes"]').val(JSON.parse(form).notes)
-                $('#data-form-modal-table').attr('action', '/device/' + JSON.parse(form).id)
+                $('#modalTitle').html('Edit Set Up Kind Of Damage Device Device')
+                optionData('/item/data/select', 'select#item_id', JSON.parse(form).item_id)
+                optionData('/severity/data/select', 'select#severity_configuration_id', JSON.parse(form).severity_configuration_id)
+                $('select#category').val(JSON.parse(form).category)
+                $('select#category').trigger('change')
+                $('.form-control[name="name"]').val(JSON.parse(form).name)
+                $('#data-form-modal-table').attr('action', '/kind-of-damage-type/' + JSON.parse(form).id)
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-edit")
+
             })
 
             $(document).on('click', '.btn-add', function() {
                 $('#data-form-modal-table')[0].reset()
-                $('#modalTitle').html('Buat Data Device')
-                $('#data-form-modal-table').attr('action', '/device')
+                optionData('/item/data/select', 'select#item_id')
+                optionData('/severity/data/select', 'select#severity_configuration_id')
+                $('select#category').val('hardware')
+                $('select#category').trigger('change')
+                $('#modalTitle').html('Buat Set Up Kind Of Damage Device Device')
+                $('#data-form-modal-table').attr('action', '/kind-of-damage-type')
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-new")
             })

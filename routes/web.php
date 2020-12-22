@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\DeviceController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +32,41 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', 'ProfileController@update')->name('profile.update');
     });
 
-    Route::group(['prefix' => 'device'], function () {
+    Route::group(['prefix' => 'device', 'namespace' => 'Admin'], function () {
         Route::get('/', 'DeviceController@index')->name('device');
+        Route::post('/', 'DeviceController@create')->name('device.create');
+        Route::post('/delete', 'DeviceController@delete')->name('device.delete');
+        Route::post('/{id}', 'DeviceController@update')->name('device.update');
+        Route::get('/data', 'DeviceController@data')->name('device.data');
+
+    });
+
+    Route::group(['prefix' => 'severity', 'namespace' => 'Admin'], function() {
+        Route::get('/', 'SeverityController@index')->name('severity');
+        Route::post('/', 'SeverityController@create')->name('severity.add');
+        Route::post('/delete', 'SeverityController@delete')->name('severity.delete');
+        Route::get('/data', 'SeverityController@data')->name('severity.data');
+        Route::get('/data/select', 'SeverityController@selectDataFormat')->name('severity.data.select');
+        Route::post('/{id}', 'SeverityController@update')->name('severity.update');
+    });
+
+    Route::group(['prefix' => 'item', 'namespace' => 'Admin'], function() {
+        Route::get('/', 'ItemController@index')->name('item');
+        Route::post('/', 'ItemController@create')->name('item.add');
+        Route::post('/delete', 'ItemController@delete')->name('item.delete');
+        Route::get('/data', 'ItemController@data')->name('item.data');
+        Route::get('/data/select', 'ItemController@selectDataFormat')->name('item.data.select');
+        Route::post('/{id}', 'ItemController@update')->name('item.update');
+    });
+
+    //kind-of-damage-type
+    Route::group(['prefix' => 'kind-of-damage-type', 'namespace' => 'Admin'], function() {
+        Route::get('/', 'SetKindOfDamageController@index')->name('kind-of-damage-type');
+        Route::post('/', 'SetKindOfDamageController@create')->name('kind-of-damage-type.add');
+        Route::post('/delete', 'SetKindOfDamageController@delete')->name('kind-of-damage-type.delete');
+        Route::post('/{id}', 'SetKindOfDamageController@update')->name('kind-of-damage-type.update');
+        Route::get('/data', 'SetKindOfDamageController@data')->name('kind-of-damage-type.data');
+
     });
 
     Route::group(['prefix' => 'data-lokasi'], function () {

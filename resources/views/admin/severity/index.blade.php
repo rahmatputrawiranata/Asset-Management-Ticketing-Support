@@ -5,7 +5,7 @@
 @endpush
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Device') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Severity') }}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -19,7 +19,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="d-flex flex-column flex-sm-column flex-md-row justify-content-md-between">
-                    <h6 class="m-0 font-weight-bold text-primary">{{__('Data Device')}}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{__('Data Severity')}}</h6>
                     <div>
                         <button class="btn btn-primary btn-add btn-icon-split" type="button" >
                             <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
@@ -33,8 +33,10 @@
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
                         <th>No. </th>
-                        <th>Device Code</th>
-                        <th>Device Model</th>
+                        <th>Name</th>
+                        <th>Response Time</th>
+                        <th>Software Time</th>
+                        <th>Hardware Time</th>
                         <th class="action-data">Action</th>
                     </thead>
                     <tbody>
@@ -44,11 +46,11 @@
         </div>
     </div>‹
 
-    <x-modal-form name="Data Device Kita">
-        <x-forms.text title="Device Code" name="device_code" />
-        <x-forms.text title="Device Model" name="device_model" />
-        <x-forms.textarea title="Spesification" name="spesification" />
-        <x-forms.textarea title="Notes" name="notes" />
+    <x-modal-form name="Data Severity Kita">
+        <x-forms.text title="Name" name="name" />
+        <x-forms.input-minute title="Response Time" name="response_time"/>
+        <x-forms.input-minute title="Software Time" name="software_time"/>
+        <x-forms.input-minute title="Hardware Time" name="hardware_time"/>
     </x-modal-form>
 
 
@@ -66,11 +68,13 @@
             dtTable = $('#table-data').DataTable({
                 processing : true,
                 serverSide : true,
-                ajax : 'device/data',
+                ajax : 'severity/data',
                 columns : [
                     {data : 'DT_RowIndex', name : 'DT_RowIndex', "width" : "5%"},
-                    {data : 'device_code', name : 'device_code'},
-                    {data : 'device_model', name : 'device_model'},
+                    {data : 'name', name : 'name'},
+                    {data : 'response_time', name : 'response_time'},
+                    {data : 'software_time', name : 'software_time'},
+                    {data : 'hardware_time', name : 'hardware_time'},
                     {data : 'id', name: 'id'}
                 ],
                 columnDefs : [
@@ -84,7 +88,7 @@
                             return  '<button class="btn btn-edit btn-circle btn-sm btn-primary" data-id=\'' + JSON.stringify(row) + '\'>'
                                     +'<i class="fas fa-pen"></i>'
                                     +'</button> '
-                                    +'<button class="btn data-form-delete-button btn-sm btn-circle btn-danger" data-action="/device/delete" data-id=\'' + JSON.stringify(row) + '\'>'
+                                    +'<button class="btn data-form-delete-button btn-sm btn-circle btn-danger" data-action="/severity/delete" data-id=\'' + JSON.stringify(row) + '\'>'
                                     +'<i class="fas fa-trash"></i>'
                                     +'</button>'
                         }
@@ -94,20 +98,20 @@
 
             $(document).on('click', '.btn-edit', function() {
                 const form = $(this).attr('data-id')
-                $('#modalTitle').html('Edit Data Device')
-                $('.form-control[name="device_code"]').val(JSON.parse(form).device_code)
-                $('.form-control[name="device_model"]').val(JSON.parse(form).device_model)
-                $('.form-control[name="spesification"]').val(JSON.parse(form).spesification)
-                $('.form-control[name="notes"]').val(JSON.parse(form).notes)
-                $('#data-form-modal-table').attr('action', '/device/' + JSON.parse(form).id)
+                $('#modalTitle').html('Edit Data Severity')
+                $('.form-control[name="name"]').val(JSON.parse(form).name)
+                $('.form-control[name="response_time"]').val(JSON.parse(form).response_time)
+                $('.form-control[name="software_time"]').val(JSON.parse(form).software_time)
+                $('.form-control[name="hardware_time"]').val(JSON.parse(form).hardware_time)
+                $('#data-form-modal-table').attr('action', '/severity/' + JSON.parse(form).id)
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-edit")
             })
 
             $(document).on('click', '.btn-add', function() {
                 $('#data-form-modal-table')[0].reset()
-                $('#modalTitle').html('Buat Data Device')
-                $('#data-form-modal-table').attr('action', '/device')
+                $('#modalTitle').html('Buat Data Severity')
+                $('#data-form-modal-table').attr('action', '/severity')
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-new")
             })

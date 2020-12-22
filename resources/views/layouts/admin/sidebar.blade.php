@@ -24,37 +24,37 @@
 
         <!-- Heading -->
         <div class="sidebar-heading d-none d-md-block">
-            {{__('Master Data Device')}}
+            {{__('Master Data')}}
         </div>
 
-        <li class="nav-item {{ Nav::isRoute('Country') }}">
-            <a class="nav-link" href="{{ route('profile') }}">
-                <i class="fas fa-fw fa-database"></i>
-                <span>{{ __('Device')}}</span>
-            </a>
-        </li>
-
-        <li class="nav-item {{ Nav::isRoute('Country') }}">
-            <a class="nav-link" href="{{ route('profile') }}">
+        <li class="nav-item {{ Nav::isRoute('device') }}">
+            <a class="nav-link" href="{{ route('device') }}">
                 <i class="fas fa-fw fa-database"></i>
                 <span>{{ __('Data Device')}}</span>
             </a>
         </li>
 
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading d-none d-md-block">
-            {{__('Master Data')}}
-        </div>
-
-        <li class="nav-item {{ Nav::isRoute('Country') }}">
-            <a class="nav-link" href="{{ route('profile') }}">
+        <li class="nav-item {{ Nav::isRoute('item') }}">
+            <a class="nav-link" href="{{ route('item') }}">
                 <i class="fas fa-fw fa-database"></i>
-                <span>{{ __('Device')}}</span>
+                <span>{{ __('Data Item')}}</span>
             </a>
         </li>
+
+        <li class="nav-item {{ Nav::isRoute('kind-of-damage-type') }}">
+            <a class="nav-link" href="{{ route('kind-of-damage-type') }}">
+                <i class="fas fa-fw fa-database"></i>
+                <span>{{ __('Set Up Kind Of Damage Type')}}</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Nav::isRoute('severity') }}">
+            <a class="nav-link" href="{{ route('severity') }}">
+                <i class="fas fa-fw fa-database"></i>
+                <span>{{ __('Data Severity')}}</span>
+            </a>
+        </li>
+
         <li class="nav-item  {{Nav::hasSegment('data-lokasi')}}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLocationData"
                 aria-exanded="true" aria-controls="collapseLocationData">

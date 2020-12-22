@@ -3,33 +3,45 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Device;
+use App\Models\Item;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class DeviceController extends Controller
+class ItemController extends Controller
 {
     public function index() {
-        return view('admin.device.index');
+        return view('admin.item.index');
     }
 
     public function data() {
         return datatables()
-                ->of(Device::all())
+                ->of(Item::all())
                 ->addIndexColumn()
                 ->make();
+    }
+
+    public function selectDataFormat() {
+        $data = $this->createSelectDataFormat(
+            Item::get(),
+            'id',
+            'name'
+        );
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Success',
+            'status_code' => 200,
+            'data' => $data
+        ], 200);
     }
 
     public function create(Request $request) {
 
         DB::beginTransaction();
         try {
-            $data = new Device();
-            $data->device_code = $request->device_code;
-            $data->device_model = $request->device_model;
-            $data->spesification = $request->spesification;
-            $data->notes = $request->notes;
+            $data = new Item();
+            $data->name = $request->name;
             $data->save();
 
         }catch(Exception $e){
@@ -56,11 +68,8 @@ class DeviceController extends Controller
 
         DB::beginTransaction();
         try{
-            $data = Device::find($id);
-            $data->device_code = $request->device_code;
-            $data->device_model = $request->device_model;
-            $data->spesification = $request->spesification;
-            $data->notes = $request->notes;
+            $data = Item::find($id);
+            $data->name = $request->name;
             $data->save();
         }catch(Exception $e) {
             DB::rollback();
@@ -83,7 +92,7 @@ class DeviceController extends Controller
     public function delete(Request $request) {
         DB::beginTransaction();
         try{
-            $data = Device::find($request->id);
+            $data = Item::find($request->id);
             $data->delete();
         }catch(Exception $e) {
             DB::rollback();
