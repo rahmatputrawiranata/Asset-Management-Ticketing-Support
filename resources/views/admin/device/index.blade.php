@@ -47,8 +47,8 @@
     <x-modal-form name="Data Device Kita">
         <x-forms.text title="Device Code" name="device_code" />
         <x-forms.text title="Device Model" name="device_model" />
-        <x-forms.textarea title="Spesification" name="spesification" />
-        <x-forms.textarea title="Notes" name="notes" />
+        <x-forms.text-area title="Spesification" name="spesification" />
+        <x-forms.text-area title="Notes" name="notes" />
     </x-modal-form>
 
 
