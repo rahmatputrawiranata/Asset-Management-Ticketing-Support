@@ -174,6 +174,10 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
+        // Middleware
+        // App\Http\Middleware\JWTCustomerMiddleware::class,
 
     ],
 
@@ -227,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'jwt.customer' => App\Http\Middleware\JWTCustomerMiddleware::class,
     ],
 
 ];

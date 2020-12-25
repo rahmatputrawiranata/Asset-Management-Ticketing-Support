@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['namespace' => 'Api'], function () {
+
+//public api
+
+Route::group(['namespace' => 'Api'], function() {
     Route::group(['prefix' => 'data-lokasi'], function () {
         Route::group(['prefix' => 'country'], function () {
             Route::get('/all', 'CountryController@all');
@@ -29,7 +32,22 @@ Route::group(['namespace' => 'Api'], function () {
             Route::get('/all/{id}', 'CityController@all');
             Route::get('/select-data/{id}', 'CityController@selectDataFormat');
         });
+    });
+});
 
+Route::group(['namespace' => 'Api\Customer', 'prefix' => 'customer'], function () {
 
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('login', 'AuthController@login');
+        Route::post('register', 'AuthController@register');
+    });
+
+    Route::group(['middleware' => 'auth:customer'], function() {
+        //Profile Customer
+        Route::group(['prefix' => 'profile'], function() {
+            Route::get('/', 'ProfileController@index');
+            Route::post('/update', 'ProfileController@update');
+            Route::post('/update-password', 'ProfileController@updatePassword');
+        });
     });
 });

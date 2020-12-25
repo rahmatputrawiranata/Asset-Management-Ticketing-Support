@@ -44,7 +44,7 @@
         <li class="nav-item {{ Nav::isRoute('kind-of-damage-type') }}">
             <a class="nav-link" href="{{ route('kind-of-damage-type') }}">
                 <i class="fas fa-fw fa-database"></i>
-                <span>{{ __('Set Up Kind Of Damage Type')}}</span>
+                <span>{{ __('Item Details')}}</span>
             </a>
         </li>
 

@@ -17,9 +17,9 @@ class CreateWorkersTable extends Migration
             $table->id();
             $table->enum('type', ['internal', 'external'])->default('internal');
             $table->string('full_name');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('username');
+            $table->string('email')->unique();
+            $table->string('phone')->unique();
+            $table->string('username')->unique();
             $table->string('password');
             $table->string('status')->default(1);
             $table->timestamps();

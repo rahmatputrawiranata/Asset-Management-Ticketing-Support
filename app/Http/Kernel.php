@@ -42,6 +42,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            'customer',
         ],
     ];
 
@@ -63,5 +64,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'jwt.customer' => \App\Http\Middleware\JWTCustomerMiddleware::class,
+        'customer' => \App\Http\Middleware\CustomerMiddleware::class,
     ];
 }
