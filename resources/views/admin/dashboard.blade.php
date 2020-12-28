@@ -28,7 +28,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('Worker External') }}</div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('Teknisi Mitra') }}</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $widget['outsources'] }}</div>
                         </div>
                         <div class="col-auto">
@@ -45,7 +45,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('Worker Internal') }}</div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('Teknisi Internal') }}</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $widget['workers'] }}</div>
                         </div>
                         <div class="col-auto">
@@ -62,7 +62,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('Customer') }}</div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('User Mobile App') }}</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $widget['customers'] }}</div>
                         </div>
                         <div class="col-auto">
@@ -79,7 +79,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('Users') }}</div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('User') }}</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $widget['users'] }}</div>
                         </div>
                         <div class="col-auto">

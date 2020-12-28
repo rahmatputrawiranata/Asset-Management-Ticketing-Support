@@ -21,12 +21,6 @@ class CreateBranchesTable extends Migration
             $table->longText('address');
             $table->string('latitude');
             $table->string('longitude');
-            $table->string('eos')->nullable();
-            $table->string('eos_number')->nullable();
-            $table->string('pic')->nullable();
-            $table->string('pic_number')->nullable();
-            $table->string('pic_ga')->nullable();
-            $table->string('pic_ga_number')->nullable();
             $table->string('note')->nullable();
             $table->string('status')->default(1);
             $table->timestamps();

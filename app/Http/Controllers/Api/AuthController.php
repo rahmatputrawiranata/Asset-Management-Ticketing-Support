@@ -64,6 +64,7 @@ class AuthController extends ApiController
             'username' => 'required|unique:customers,username',
             'full_name' => 'required',
             'phone' => 'required|unique:customers,phone',
+            'branch' => 'required',
             'email' => 'required|unique:customers,email',
             'password' => 'required|min:8|max:18',
             'c_password' => 'same:password'
@@ -73,6 +74,7 @@ class AuthController extends ApiController
         try {
             $model = new Customer();
             $model->full_name = $request->full_name;
+            $model->branch_id = $request->branch_id;
             $model->username = $request->username;
             $model->phone = $request->phone;
             $model->email = $request->email;

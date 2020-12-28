@@ -85,9 +85,11 @@ class AuthController extends ApiController
             $model = new Customer();
             $model->full_name = $request->full_name;
             $model->username = $request->username;
+            $model->branch_id = $request->branch;
             $model->phone = $request->phone;
             $model->email = $request->email;
             $model->password = Hash::make($request->password);
+            $model->branch_id = $request->branch_id;
             $model->user = $request->header('user-agent');
             $model->save();
         }catch(Exception $e) {

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 $factory->define(Customer::class, function (Faker $faker) {
     return [
         'full_name' => $faker->name,
+        'branch_id' => $faker->numberBetween(1, 10),
         'username' => $faker->unique()->userName,
         'password' => Hash::make('password'),
         'email' => $faker->unique()->safeEmail,

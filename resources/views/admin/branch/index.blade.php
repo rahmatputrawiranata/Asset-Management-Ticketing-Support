@@ -18,13 +18,13 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
+                <table class="table table-bordered responsive nowrap" id="table-data" width="100%" cellspacing="0">
                     <thead>
                         <th>#</th>
                         <th>Kota</th>
                         <th>Code</th>
-                        <th>Nama Cabang</th>
-                        <th class="action-data">Action</th>
+                        <th data-priority="1">Nama Cabang</th>
+                        <th class="action-data" data-priority="2">Action</th>
                     </thead>
                     <tbody>
                     </tbody>
@@ -39,12 +39,6 @@
         <x-forms.select-ajax title="Kota" name="kota" />
         <x-forms.text title="Code" name="code" />
         <x-forms.text title="Nama Cabang" name="name"/>
-        <x-forms.text title="Enginer On Site" name="eos"/>
-        <x-forms.text title="Enginer On Site Phone Number" name="eos_number"/>
-        <x-forms.text title="People In Charge" name="pic"/>
-        <x-forms.text title="People In Charge Phone Number" name="pic_number"/>
-        <x-forms.text title="People In Charge GA" name="pic_ga"/>
-        <x-forms.text title="People In Charge GA Phone Number" name="pic_ga_number"/>
         <x-forms.text-area title="Alamat Detail" name="address"/>
         <x-forms.map/>
     </x-modal-form>
@@ -148,18 +142,14 @@
 
             $(document).on('click', '.btn-edit', function() {
                 const form = $(this).attr('data-id')
+
                 optionData('/api/data-lokasi/country/select-data', 'select#country', JSON.parse(form).countries_id)
-                optionData('/api/data-lokasi/province/select-data/' + JSON.parse(form).province_id, 'select#provinsi', JSON.parse(form).province_id)
-                optionData('/api/data-lokasi/city/select-data/' + JSON.parse(form).city_id, 'select#kota', JSON.parse(form).city_id)
+                optionData('/api/data-lokasi/province/select-data/' + JSON.parse(form).countries_id, 'select#provinsi', JSON.parse(form).province_id)
+                optionData('/api/data-lokasi/city/select-data/' + JSON.parse(form).province_id, 'select#kota', JSON.parse(form).city_id)
+
                 $('#modalTitle').html('Edit Data Cabang')
                 $('input[name="code"]').val(JSON.parse(form).code)
                 $('input[name="name"]').val(JSON.parse(form).name)
-                $('input[name="eos"]').val(JSON.parse(form).eos)
-                $('input[name="eos_number"]').val(JSON.parse(form).eos_number)
-                $('input[name="pic"]').val(JSON.parse(form).pic)
-                $('input[name="pic_number"]').val(JSON.parse(form).pic_number)
-                $('input[name="pic_ga"]').val(JSON.parse(form).pic_ga)
-                $('input[name="pic_ga_number"]').val(JSON.parse(form).pic_ga_number)
 
                 $('textarea[name="address"]').val(JSON.parse(form).address)
                 mapboxSetCenter(JSON.parse(form).longitude, JSON.parse(form).latitude)
@@ -167,7 +157,9 @@
                 $('#modal-form-centered').modal('show')
 
                 // $('select#country').val(JSON.parse(form).countries_id)
-                // $('select#country').trigger('change')
+                $('select#country').trigger('change')
+                $('select#provinsi').trigger('change')
+                $('select#kota').trigger('change')
                 $('#btn-save').addClass("btn-save-edit")
             })
 

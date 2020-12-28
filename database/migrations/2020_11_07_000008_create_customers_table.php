@@ -15,6 +15,7 @@ class CreateCustomersTable extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('branch_id');
             $table->string('full_name');
             $table->string('username')->unique();
             $table->string('password');
@@ -27,6 +28,7 @@ class CreateCustomersTable extends Migration
             $table->string('user');
 
             $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('branch_id')->references('id')->on('branches');
         });
     }
 

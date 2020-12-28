@@ -21,6 +21,9 @@ class CreateWorkersTable extends Migration
             $table->string('phone')->unique();
             $table->string('username')->unique();
             $table->string('password');
+            $table->tinyInteger('is_active')->default(1);
+            $table->string('current_latitude')->nullable();
+            $table->string('current_longitude')->nullable();
             $table->string('status')->default(1);
             $table->timestamps();
             $table->softDeletes();

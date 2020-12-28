@@ -41,6 +41,7 @@ class ProfileController extends ApiController
             $model->username = $request->username;
             $model->phone = $request->phone;
             $model->email = $request->email;
+            $model->branch_id = $request->branch;
             $model->save();
         }catch(Exception $e){
             DB::rollback();
