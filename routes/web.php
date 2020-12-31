@@ -32,6 +32,19 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', 'ProfileController@update')->name('profile.update');
     });
 
+    Route::group(['prefix' => 'customer', 'namespace' => 'Admin'], function() {
+        Route::get('/', 'CustomerController@index')->name('customer');
+        Route::get('/data', 'CustomerController@data')->name('customer.data');
+    });
+
+    Route::group(['prefix' => 'worker', 'namespace' => 'Admin'], function() {
+        Route::get('/', 'WorkerController@index')->name('worker');
+        Route::post('/', 'WorkerController@store')->name('worker.store');
+        Route::get('/data', 'WorkerController@data')->name('worker.data');
+        Route::post('/delete', 'WorkerController@delete')->name('worker.delete');
+        Route::post('/{id}', 'WorkerController@update')->name('worker.update');
+    });
+
     Route::group(['prefix' => 'device', 'namespace' => 'Admin'], function () {
         Route::get('/', 'DeviceController@index')->name('device');
         Route::post('/', 'DeviceController@create')->name('device.create');
@@ -99,7 +112,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', 'BranchController@index')->name('branch');
             Route::post('/', 'BranchController@store')->name('branch.store');
             Route::get('/data', 'BranchController@data')->name('branch.data');
-
+            Route::post('/delete', 'BranchController@delete')->name('branch.delete');
+            Route::post('/{id}', 'BranchController@update')->name('branch.update');
         });
     });
 

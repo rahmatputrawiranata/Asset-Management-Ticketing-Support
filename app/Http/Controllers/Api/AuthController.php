@@ -46,6 +46,13 @@ class AuthController extends ApiController
 
         $type = 'username';
 
+        if(is_numeric($request->username)){
+            $type = 'phone';
+        }else if(filter_var($request->username, FILTER_VALIDATE_EMAIL)) {
+            $type = 'email';
+        }else {
+            $type = 'username';
+        }
         if(!$customer = Customer::where($type, $request->username)->first()) {
             return $this->respondFail('Email, Phone Number or Username not registered', [], 401);
         }
@@ -60,6 +67,9 @@ class AuthController extends ApiController
     }
 
     public function register(Request $request) {
+        $this->merge([
+            'phone' => $this->generatePhone
+        ]);
         $this->validate($request, [
             'username' => 'required|unique:customers,username',
             'full_name' => 'required',
@@ -82,7 +92,9 @@ class AuthController extends ApiController
             $model->save();
         }catch(Exception $e) {
             DB::rollback();
-            return $this->respondFail();
+            return $this->respondFail(
+                $e->getMessage()
+            );
         }
 
         DB::commit();

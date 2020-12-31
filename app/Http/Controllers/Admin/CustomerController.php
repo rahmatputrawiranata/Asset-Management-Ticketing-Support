@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
-use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
@@ -16,6 +15,12 @@ class CustomerController extends Controller
         return datatables()
                 ->of(Customer::all())
                 ->addIndexColumn()
+                ->addColumn('branch', function (Customer $q) {
+                    return $q->branch->name;
+                })
+                ->editColumn('status', function (Customer $q) {
+                    return $q->status == 1 ? 'active' : 'inactive';
+                })
                 ->make();
     }
 }

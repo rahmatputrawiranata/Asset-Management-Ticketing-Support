@@ -19,6 +19,19 @@
                 <span>{{ __('Dashboard') }}</span></a>
         </li>
 
+        <li class="nav-item {{ Nav::isRoute('customer') }}">
+            <a class="nav-link" href="{{ route('customer') }}">
+                <i class="fas fa-fw fa-user"></i>
+                <span>{{ __('Customer') }}</span></a>
+        </li>
+
+        <li class="nav-item {{ Nav::isRoute('worker') }}">
+            <a class="nav-link" href="{{ route('worker') }}">
+                <i class="fas fa-fw fa-address-card"></i>
+                <span>{{ __('Worker') }}</span></a>
+        </li>
+
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 

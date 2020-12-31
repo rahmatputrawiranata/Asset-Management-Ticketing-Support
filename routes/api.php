@@ -30,6 +30,7 @@ Route::group(['namespace' => 'Api'], function() {
 
         Route::group(['prefix' => 'city'], function () {
             Route::get('/all/{id}', 'CityController@all');
+            Route::get('/select-data', 'CityController@allData');
             Route::get('/select-data/{id}', 'CityController@selectDataFormat');
         });
     });

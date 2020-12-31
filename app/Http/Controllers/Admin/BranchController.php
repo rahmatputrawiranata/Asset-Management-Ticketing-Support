@@ -52,8 +52,6 @@ class BranchController extends Controller
 
     public function store(Request $request) {
 
-
-
         $this->validate($request, [
             'name' => 'required',
             'kota' => 'required',
@@ -74,12 +72,6 @@ class BranchController extends Controller
             $data->address = $request->address;
             $data->latitude = $request->latitude;
             $data->longitude = $request->longitude;
-            $data->eos = $request->eos;
-            $data->eos_number = $request->eos_number;
-            $data->pic = $request->pic;
-            $data->pic_number = $request->pic_number;
-            $data->pic_ga = $request->pic_ga;
-            $data->pic_ga_number = $request->pic_ga_number;;
             $data->note = $request->note;
             $data->status = 1;
             $data->user = 'admin-'.Auth::user()->id;
@@ -96,6 +88,75 @@ class BranchController extends Controller
         }
         DB::commit();
 
+        return response()->json([
+            'status' => 'error',
+            'status_code' => 200,
+            'message' => 'Success',
+            'data' => []
+        ]);
+    }
+
+    public function update($id, Request $request) {
+
+        $this->validate($request, [
+            'name' => 'required',
+            'kota' => 'required',
+            'name' => 'required',
+            'code' => 'required|unique:branches,code',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'address' => 'required'
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $data = Branch::find($id);
+            $data->cities_id = $request->kota;
+            $data->name = $request->name;
+            $data->code = strtoupper($request->code);
+            $data->address = $request->address;
+            $data->latitude = $request->latitude;
+            $data->longitude = $request->longitude;
+            $data->note = $request->note;
+            $data->status = 1;
+            $data->user = 'admin-'.Auth::user()->id;
+
+            $data->save();
+        }catch(Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => 'error',
+                'status_code' => '500',
+                'message' => $e->getMessage(),
+                'data' => $e
+            ], 500);
+        }
+        DB::commit();
+
+        return response()->json([
+            'status' => 'error',
+            'status_code' => 200,
+            'message' => 'Success',
+            'data' => []
+        ]);
+    }
+
+    public function delete(Request $request){
+        DB::beginTransaction();
+        try{
+            $model = Branch::find($request->id);
+            $model->delete();
+        }catch(Exception $e){
+            DB::rollback();
+            return response()->json([
+                'status' => 'error',
+                'status_code' => '500',
+                'message' => $e->getMessage(),
+                'data' => $e
+            ], 500);
+        }
+        DB::commit();
         return response()->json([
             'status' => 'error',
             'status_code' => 200,

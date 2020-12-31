@@ -10,13 +10,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthController extends ApiController
 {
 
     public function __construct()
     {
-        $this->middleware('auth:customer')->except('login');
+        // $this->middleware('auth:customer')->except('login');
     }
 
     protected function jwt(Customer $customer) {
@@ -42,43 +43,59 @@ class AuthController extends ApiController
     }
 
     public function login(Request $request) {
+
         $this->validate($request, [
             'username' => 'required',
             'password' => 'required'
         ]);
 
-        // $type = 'username';
+        $type = 'username';
 
-        // if(!$customer = Customer::where($type, $request->username)->first()) {
-        //     return $this->respondFail('Email, Phone Number or Username not registered', [], 401);
-        // }
+        if(is_numeric($request->username)){
+            $type = 'phone';
+        }else if(filter_var($request->username, FILTER_VALIDATE_EMAIL)) {
+            $type = 'email';
+        }else {
+            $type = 'username';
+        }
 
-        // if(!Hash::check($request->password, $customer->password)) {
-        //     return $this->respondFail('Username and Password combination is Invalid', [], 401);
-        // }
+        if($type == 'phone') {
+            $request->merge([
+                'username' => $this->generatePhone($request->username),
+            ]);
+        }
 
-        // return $this->respondSuccess('Success', [
-        //     'token' => $this->jwt($customer)
-        // ]);
-
-        $credentials = $request->only(['username', 'password']);
+        $credentials = array(
+            $type => $request->username,
+            'password' => $request->password
+        );
 
         if(!$token = Auth::attempt($credentials)) {
-            return $this->respondFail();
+            return $this->respondFail(
+                'invalid username or password',
+                [],
+                401
+            );
         }
 
         return $this->respondWithToken($token);
     }
 
     public function register(Request $request) {
-        // $this->validate($request, [
-        //     'username' => 'required|unique:customers,username',
-        //     'full_name' => 'required',
-        //     'phone' => 'required|unique:customers,phone',
-        //     'email' => 'required|unique:customers,email',
-        //     'password' => 'required|min:8|max:18',
-        //     'c_password' => 'same:password'
-        // ]);
+        $request->merge([
+            'phone' => $this->generatePhone($request->phone),
+            'username' => Str::lower($request->username),
+            'email' => Str::lower($request->email),
+        ]);
+        $this->validate($request, [
+            'username' => 'required|unique:customers,username',
+            'full_name' => 'required',
+            'phone' => 'required|unique:customers,phone',
+            'email' => 'required|unique:customers,email',
+            'password' => 'required|min:8|max:18',
+            'c_password' => 'same:password',
+            'branch_id' => 'required|integer',
+        ]);
 
         DB::beginTransaction();
         try {
@@ -92,9 +109,13 @@ class AuthController extends ApiController
             $model->branch_id = $request->branch_id;
             $model->user = $request->header('user-agent');
             $model->save();
+
+            return $this->respondWithToken($model);
         }catch(Exception $e) {
             DB::rollback();
-            return $this->respondFail();
+            return $this->respondFail(
+                $e->getMessage()
+            );
         }
 
         DB::commit();

@@ -35,6 +35,7 @@
                         <th>Negara</th>
                         <th>Provinsi</th>
                         <th>Kota</th>
+                        <th>SDS</th>
                         <th class="action-data">Action</th>
                     </thead>
                     <tbody>
@@ -78,6 +79,14 @@
                         data : 'name',
                         name : 'name',
                         targets : 2
+                    },
+                    {
+                        data : 'is_fast_service',
+                        name : 'is_fast_service',
+                        render : function(data, type, row, meta) {
+                            return data === 1 ? 'Yes' : 'False';
+                        },
+                        targets : 3
                     },
                     {
                         targets : -1,
@@ -131,9 +140,9 @@
                 optionData('/api/data-lokasi/province/select-data/' + $(this).val(), 'select#provinsi')
             })
 
-                        //Create or Update Global
+            //Create or Update Global
 
-                        $('form').on('submit', function(e) {
+            $('form').on('submit', function(e) {
                 e.preventDefault()
 
                 form = $(this).serialize()

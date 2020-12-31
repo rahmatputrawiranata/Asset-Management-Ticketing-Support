@@ -24,7 +24,7 @@ class CreateMasterDataTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('parent')->references('id')->on('master_data');
+            $table->foreign('parent')->references('key')->on('master_data');
 
         });
     }

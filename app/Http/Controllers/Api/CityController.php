@@ -9,6 +9,20 @@ use Illuminate\Http\Request;
 
 class CityController extends ApiController
 {
+
+    public function allData() {
+
+        $data = $this->createSelectDataFormat(City::get(), 'id', 'name');
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Success',
+            'status_code' => 200,
+            'data' => $data
+        ], 200);
+
+    }
+
     public function all($id) {
 
         return response()->json([

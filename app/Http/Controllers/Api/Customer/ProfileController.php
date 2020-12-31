@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class ProfileController extends ApiController
 {
@@ -26,6 +27,13 @@ class ProfileController extends ApiController
     }
 
     public function update(Request $request) {
+
+
+        $request->merge([
+            'phone' => $this->generatePhone($request->phone),
+            'username' => Str::lower($request->username),
+            'email' => Str::lower($request->email),
+        ]);
 
         $this->validate($request, [
             'full_name' => 'required|unique:customers,username,except,'.$this->user->id,

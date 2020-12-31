@@ -5,7 +5,7 @@
 @endpush
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Device') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Worker') }}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -19,7 +19,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="d-flex flex-column flex-sm-column flex-md-row justify-content-md-between">
-                    <h6 class="m-0 font-weight-bold text-primary">{{__('Data Device')}}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{__('Data Worker')}}</h6>
                     <div>
                         <button class="btn btn-primary btn-add btn-icon-split" type="button" >
                             <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
@@ -33,8 +33,11 @@
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
                         <th>No. </th>
-                        <th>name</th>
-                        <th>Device Model</th>
+                        <th data-priority="1">name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>City Assignment</th>
+                        <th>Status</th>
                         <th class="action-data">Action</th>
                     </thead>
                     <tbody>
@@ -44,11 +47,18 @@
         </div>
     </div>‹
 
-    <x-modal-form name="Data Device Kita">
-        <x-forms.text title="Device Code" name="device_code" />
-        <x-forms.text title="Device Model" name="device_model" />
-        <x-forms.text-area title="Spesification" name="spesification" />
-        <x-forms.text-area title="Notes" name="notes" />
+    <x-modal-form name="Data Worker">
+        <x-forms.text title="Full Name" name="full_name" />
+        <x-forms.text title="Username" name="username" />
+        <x-forms.text title="phone" name="phone" />
+        <x-forms.text title="Email" name="email" />
+        <x-forms.password title="Password" name="password" />
+        <x-forms.password title="Password Confirmation" name="password_confirmation" />
+        <x-forms.select-ajax title="Kota" name="city" :multiple="true" />
+        <x-forms.select title="Worker Type" name="type">
+            <option value="internal">Internal</option>
+            <option value="external">Mitra</option>
+        </x-forms.select>
     </x-modal-form>
 
 
@@ -64,13 +74,18 @@
 
             //Data Table
             dtTable = $('#table-data').DataTable({
+                responsive: true,
                 processing : true,
                 serverSide : true,
-                ajax : 'device/data',
+                ajax : 'worker/data',
                 columns : [
                     {data : 'DT_RowIndex', name : 'DT_RowIndex', "width" : "5%"},
-                    {data : 'device_code', name : 'device_code'},
-                    {data : 'device_model', name : 'device_model'},
+                    {data : 'full_name', name : 'full_name'},
+                    {data : 'phone', name : 'phone'},
+                    {data : 'email', name : 'email'},
+                    {data : 'assignment_city', name : 'assignment_city'},
+                    {data : 'type', name : 'type'},
+
                     {data : 'id', name: 'id'}
                 ],
                 columnDefs : [
@@ -94,12 +109,17 @@
 
             $(document).on('click', '.btn-edit', function() {
                 const form = $(this).attr('data-id')
-                $('#modalTitle').html('Edit Data Device')
-                $('.form-control[name="device_code"]').val(JSON.parse(form).device_code)
-                $('.form-control[name="device_model"]').val(JSON.parse(form).device_model)
-                $('.form-control[name="spesification"]').val(JSON.parse(form).spesification)
-                $('.form-control[name="notes"]').val(JSON.parse(form).notes)
-                $('#data-form-modal-table').attr('action', '/device/' + JSON.parse(form).id)
+                $('#modalTitle').html('Edit Data Worker')
+                $('.form-control[name="full_name"]').val(JSON.parse(form).full_name)
+                $('.form-control[name="phone"]').val(JSON.parse(form).phone)
+                $('.form-control[name="email"]').val(JSON.parse(form).email)
+                $('.form-control[name="username"]').val(JSON.parse(form).username)
+                $('.form-control[name="password"]').parents('.form-group').hide()
+                $('.form-control[name="password_confirmation"]').parents('.form-group').hide()
+                optionData('/api/data-lokasi/city/select-data', 'select#city')
+                $('select#type').val(JSON.parse(form).type)
+                $('select#type').trigger('change')
+                $('#data-form-modal-table').attr('action', '/worker/' + JSON.parse(form).id)
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-edit")
             })

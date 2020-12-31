@@ -15,17 +15,17 @@ class CreateReportProgressTable extends Migration
     {
         Schema::create('report_progress', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('reports_id');
+            $table->unsignedBigInteger('report_id');
             $table->string('progress_code');
-            $table->json('descriptions');
-            $table->string('notes');
+            $table->json('descriptions')->nullable();
+            $table->string('notes')->nullable();
             $table->string('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->string('user');
 
 
-            $table->foreign('reports_id')->references('id')->on('reports');
+            $table->foreign('report_id')->references('id')->on('reports');
 
         });
     }

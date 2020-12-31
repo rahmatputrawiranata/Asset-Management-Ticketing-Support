@@ -11,6 +11,10 @@ class Customer extends Authenticatable implements JWTSubject
 {
     use SoftDeletes, Notifiable;
 
+    public function branch() {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

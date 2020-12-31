@@ -16,10 +16,13 @@ class SelectAjax extends Component
 
     public $name;
 
-    public function __construct($title, $name)
+    public $multiple;
+
+    public function __construct($title, $name, $multiple = false)
     {
         $this->title = $title;
         $this->name = $name;
+        $this->multiple = $multiple;
     }
 
     /**
