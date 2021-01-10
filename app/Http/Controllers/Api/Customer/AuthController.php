@@ -109,8 +109,6 @@ class AuthController extends ApiController
             $model->branch_id = $request->branch_id;
             $model->user = $request->header('user-agent');
             $model->save();
-
-            return $this->respondWithToken($model);
         }catch(Exception $e) {
             DB::rollback();
             return $this->respondFail(
@@ -120,7 +118,7 @@ class AuthController extends ApiController
 
         DB::commit();
 
-        return $this->respondSuccess();
+        return $this->respondSuccess('Successfully Register User', $model);
 
     }
 }
