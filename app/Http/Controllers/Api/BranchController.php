@@ -23,7 +23,7 @@ class BranchController extends ApiController
             'status' => 'success',
             'message' => 'Success!!',
             'status_code' => 200,
-            'data' => Branch::where('countries_id', $id)->get()
+            'data' => Branch::where('cities_id', $id)->get()
         ], 200);
 
     }

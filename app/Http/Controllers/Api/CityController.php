@@ -29,7 +29,7 @@ class CityController extends ApiController
             'status' => 'success',
             'message' => 'Success!!',
             'status_code' => 200,
-            'data' => City::where('countries_id', $id)->get()
+            'data' => City::where('ns', $id)->get()
         ], 200);
 
     }
