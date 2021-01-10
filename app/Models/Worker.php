@@ -14,7 +14,7 @@ class Worker extends Model
             City::class,
             'worker_cities',
             'worker_id',
-            'city_id',
+            'city_id'
         );
     }
 }

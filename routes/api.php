@@ -54,5 +54,9 @@ Route::group(['namespace' => 'Api\Customer', 'prefix' => 'customer'], function (
             Route::post('/update', 'ProfileController@update');
             Route::post('/update-password', 'ProfileController@updatePassword');
         });
+
+        Route::group(['prefix' => 'report'], function() {
+            Route::post('/check-device', 'DeviceController@findDevice');
+        });
     });
 });

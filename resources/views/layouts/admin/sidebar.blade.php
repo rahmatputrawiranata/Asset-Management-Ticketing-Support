@@ -22,13 +22,13 @@
         <li class="nav-item {{ Nav::isRoute('customer') }}">
             <a class="nav-link" href="{{ route('customer') }}">
                 <i class="fas fa-fw fa-user"></i>
-                <span>{{ __('Customer') }}</span></a>
+                <span>{{ __('Partner') }}</span></a>
         </li>
 
         <li class="nav-item {{ Nav::isRoute('worker') }}">
             <a class="nav-link" href="{{ route('worker') }}">
                 <i class="fas fa-fw fa-address-card"></i>
-                <span>{{ __('Worker') }}</span></a>
+                <span>{{ __('Technician') }}</span></a>
         </li>
 
 
@@ -50,21 +50,21 @@
         <li class="nav-item {{ Nav::isRoute('item') }}">
             <a class="nav-link" href="{{ route('item') }}">
                 <i class="fas fa-fw fa-database"></i>
-                <span>{{ __('Data Item')}}</span>
+                <span>{{ __('Item Problem')}}</span>
             </a>
         </li>
 
         <li class="nav-item {{ Nav::isRoute('kind-of-damage-type') }}">
             <a class="nav-link" href="{{ route('kind-of-damage-type') }}">
                 <i class="fas fa-fw fa-database"></i>
-                <span>{{ __('Item Details')}}</span>
+                <span>{{ __('Problem Details')}}</span>
             </a>
         </li>
 
         <li class="nav-item {{ Nav::isRoute('severity') }}">
             <a class="nav-link" href="{{ route('severity') }}">
                 <i class="fas fa-fw fa-database"></i>
-                <span>{{ __('Data Severity')}}</span>
+                <span>{{ __('Priority Classification')}}</span>
             </a>
         </li>
 
@@ -72,7 +72,7 @@
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLocationData"
                 aria-exanded="true" aria-controls="collapseLocationData">
                 <i class="fas fa-fw fa-compass"></i>
-                <span>Lokasi</span>
+                <span>Location Settings</span>
 
             </a>
             <div id="collapseLocationData"
@@ -80,11 +80,11 @@
                  aria-labelledby="headingLocation"
                  data-parent="#accordionSidebar" >
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Master Data Lokasi</h6>
-                    <a class="collapse-item {{Nav::isRoute('country')}}" href="{{route('country')}}">{{__('Negara')}}</a>
-                    <a class="collapse-item {{Nav::isRoute('region')}}" href="{{route('region')}}">{{__('Provinsi')}}</a>
-                    <a class="collapse-item {{Nav::isRoute('city')}}" href="{{route('city')}}">{{__('Kota')}}</a>
-                    <a class="collapse-item {{Nav::isRoute('branch')}}" href="{{route('branch')}}">{{__('Cabang')}}</a>
+                    <h6 class="collapse-header">Location Setting</h6>
+                    <a class="collapse-item {{Nav::isRoute('country')}}" href="{{route('country')}}">{{__('Country')}}</a>
+                    <a class="collapse-item {{Nav::isRoute('region')}}" href="{{route('region')}}">{{__('Province')}}</a>
+                    <a class="collapse-item {{Nav::isRoute('city')}}" href="{{route('city')}}">{{__('City')}}</a>
+                    <a class="collapse-item {{Nav::isRoute('branch')}}" href="{{route('branch')}}">{{__('Branch')}}</a>
                 </div>
             </div>
         </li>

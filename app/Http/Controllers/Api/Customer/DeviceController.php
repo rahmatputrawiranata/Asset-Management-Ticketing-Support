@@ -19,7 +19,7 @@ class DeviceController extends ApiController
             return $this->respondFail('Device Not Found!!');
         }
 
-        return $this->respondSuccess($model);
+        return $this->respondSuccess('success', $model);
 
     }
 }

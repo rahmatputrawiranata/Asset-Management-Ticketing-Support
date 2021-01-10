@@ -28,6 +28,10 @@ class CreateReportProgressTable extends Migration
             $table->foreign('report_id')->references('id')->on('reports');
 
         });
+
+        Schema::table('report_progress', function (Blueprint $table) {
+            $table->foreign('progress_code')->references('key')->on('master_data');
+        });
     }
 
     /**
