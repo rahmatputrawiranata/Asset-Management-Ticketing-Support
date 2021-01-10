@@ -16,16 +16,17 @@ class CreateMasterDataTable extends Migration
         Schema::create('master_data', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->unsignedBigInteger('parent')->nullable();
-            $table->string('key');
+            $table->string('key')->index()->unique();
+            $table->string('parent_key');
             $table->string('value_type');
             $table->longText('value');
             $table->string('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
+        });
 
-            $table->foreign('parent')->references('key')->on('master_data');
-
+        Schema::table('master_data', function (Blueprint $table) {
+            $table->foreign('parent_key')->references('key')->on('master_data');
         });
     }
 

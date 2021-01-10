@@ -33,6 +33,10 @@ Route::group(['namespace' => 'Api'], function() {
             Route::get('/select-data', 'CityController@allData');
             Route::get('/select-data/{id}', 'CityController@selectDataFormat');
         });
+
+        Route::group(['prefix' => 'branch'], function() {
+            Route::get('/all/{id}', 'BranchController@allData');
+        });
     });
 });
 

@@ -41,7 +41,7 @@ class CitySeeder extends Seeder
             [
                 'id' => 6,
                 'regions_id' => 2,
-                'name' => 'Surabaya'
+                'name' => 'Kediri'
             ],
             [
                 'id' => 7,

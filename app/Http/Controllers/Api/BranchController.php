@@ -16,4 +16,15 @@ class BranchController extends ApiController
 
         return $this->respondSuccess('Success !!', $model);
     }
+
+    public function allData($id) {
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Success!!',
+            'status_code' => 200,
+            'data' => Branch::where('countries_id', $id)->get()
+        ], 200);
+
+    }
 }
