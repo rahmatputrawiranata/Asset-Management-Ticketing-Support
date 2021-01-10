@@ -35,9 +35,7 @@ class AuthController extends ApiController
         return $this->respondSuccess(
             'Success!!',
             [
-                'access_token' => $token,
-                'token_type' => 'Bearer',
-                'expires_in' => Auth::factory()->getTTL() * 60
+                'access_token' => $token
             ]
         );
     }
