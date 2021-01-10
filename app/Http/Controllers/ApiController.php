@@ -23,7 +23,7 @@ class ApiController extends Controller
             $res = str_replace('+62', '62', $res);
         }
 
-        if($res[0] == '0') {
+        if(!empty($res[0]) && $res[0] == '0') {
             $res = substr_replace($res, '62', 0, 1);
         }
 
