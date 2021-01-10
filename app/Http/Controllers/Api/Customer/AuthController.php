@@ -118,7 +118,9 @@ class AuthController extends ApiController
 
         DB::commit();
 
-        return $this->respondSuccess('Successfully Register User', $model);
+        $token = Auth::attempt(['email' => $model->email, 'password' => $request->password]);
+
+        return $this->respondWithToken($token);
 
     }
 }
