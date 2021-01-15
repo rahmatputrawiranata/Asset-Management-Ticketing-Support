@@ -13,11 +13,22 @@ class ReportController extends Controller
     }
 
     public function data() {
-        $model = Report::query();
+        $model = Report::orderByDesc('created_at');
 
         return datatables()
                 ->eloquent($model)
                 ->addIndexColumn()
+                ->addColumn('city', function($q) {
+                    $data = $q->branch->city->withTrashed();
+                    return $data->name;
+                })
+                ->addColumn('branch', function($q) {
+                    $data = $q->branch->withTrashed();
+                    return $data->name;
+                })
+                ->addColumn('status', function($q) {
+                    return $q->statusProgress;
+                })
                 ->make();
     }
 }

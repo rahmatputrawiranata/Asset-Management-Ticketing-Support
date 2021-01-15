@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DeviceSetUp;
 use App\Http\Controllers\Controller;
 use App\Models\Device;
+use App\Models\KindOfDamageType;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +20,10 @@ class DeviceController extends Controller
         return datatables()
                 ->of(Device::all())
                 ->addIndexColumn()
+                ->addColumn('assignment_problem_details_id', function($q) {
+                    $res = $q->assignmentPromblemDetails()->pluck('kind_of_damage_types.id');
+                    return $res;
+                })
                 ->make();
     }
 
@@ -31,6 +37,18 @@ class DeviceController extends Controller
             $data->spesification = $request->spesification;
             $data->notes = $request->notes;
             $data->save();
+
+            DeviceSetUp::where('device_id', $data->id)->delete();
+
+            $data = collect($request->problem_details)->map(function($item, $key) use($data) {
+                $dataDetail = KindOfDamageType::find($item);
+                return [
+                    'device_id' => $data->id,
+                    'kind_of_damage_type_id' => $dataDetail->id,
+                    'item_id' => $dataDetail->item_id,
+                ];
+            });
+            DeviceSetUp::insert($data->toArray());
 
         }catch(Exception $e){
             DB::rollback();

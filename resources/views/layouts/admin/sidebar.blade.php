@@ -31,6 +31,12 @@
                 <span>{{ __('Technician') }}</span></a>
         </li>
 
+        <li class="nav-item {{ Nav::isRoute('report') }}">
+            <a class="nav-link" href="{{ route('report') }}">
+                <i class="fas fa-fw fa-address-card"></i>
+                <span>{{ __('Report') }}</span></a>
+        </li>
+
 
         <!-- Divider -->
         <hr class="sidebar-divider">

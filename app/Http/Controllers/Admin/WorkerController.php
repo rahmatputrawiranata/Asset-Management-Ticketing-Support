@@ -25,6 +25,10 @@ class WorkerController extends Controller
                     $res = $q->assignmentCity()->pluck('name');
                     return implode(' - ', $res->toArray());
                 })
+                ->addColumn('assignment_city_id', function($q) {
+                    $res = $q->assignmentCity()->pluck('id');
+                    return $res;
+                })
                 ->make();
     }
 

@@ -38,6 +38,10 @@ Route::group(['namespace' => 'Api'], function() {
             Route::get('/all/{id}', 'BranchController@allData');
         });
     });
+
+    Route::group(['prefix' => 'problem-details'], function() {
+        Route::get('/select-data', 'ProblemDetailController@selectData');
+    });
 });
 
 Route::group(['namespace' => 'Api\Customer', 'prefix' => 'customer'], function () {
@@ -57,6 +61,7 @@ Route::group(['namespace' => 'Api\Customer', 'prefix' => 'customer'], function (
 
         Route::group(['prefix' => 'report'], function() {
             Route::post('/check-device', 'DeviceController@findDevice');
+            Route::post('/create-report', 'ReportController@createReport');
         });
     });
 });

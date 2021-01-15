@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\MasterData;
 use Illuminate\Database\Seeder;
 
 class ProgressCodeMasterDataSeeder extends Seeder
@@ -55,5 +56,7 @@ class ProgressCodeMasterDataSeeder extends Seeder
                 'value' => 'job is Finished'
             ]
         );
+
+        MasterData::insert($data);
     }
 }

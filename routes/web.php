@@ -115,6 +115,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/delete', 'BranchController@delete')->name('branch.delete');
             Route::post('/{id}', 'BranchController@update')->name('branch.update');
         });
+
+        Route::group(['prefix' => 'report', 'namespace' => 'Admin'], function() {
+            Route::get('/', 'ReportController@index')->name('report');
+            Route::get('/data', 'ReportController@data')->name('report.data');
+        });
     });
 
 });

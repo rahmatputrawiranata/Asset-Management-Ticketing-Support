@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             CustomerSeeder::class,
             WorkerSeeder::class,
+            ProgressCodeMasterDataSeeder::class,
         ]);
     }
 }

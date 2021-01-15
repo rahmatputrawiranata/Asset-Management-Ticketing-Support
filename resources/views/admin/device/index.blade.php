@@ -29,11 +29,14 @@
             </div>
         </div>
         <div class="card-body">
+            {{-- <svg class="barcode" jsbarcode-format="upc" jsbarcode-value="Lenovo" jsbarcode-textmargin="0" jsbarcode-fontoptions="bold"> </svg> --}}
+            {{-- <svg id="barcode"></svg> --}}
             <div class="table-responsive">
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
                         <th>No. </th>
                         <th>Device Code</th>
+                        <th class="none">Barcode</th>
                         <th>Device Model</th>
                         <th class="action-data">Action</th>
                     </thead>
@@ -42,13 +45,14 @@
                 </table>
             </div>
         </div>
-    </div>‹
+    </div>
 
     <x-modal-form name="Data Device Kita">
         <x-forms.text title="Device Code" name="device_code" />
         <x-forms.text title="Device Model" name="device_model" />
         <x-forms.text-area title="Spesification" name="spesification" />
         <x-forms.text-area title="Notes" name="notes" />
+        <x-forms.select-ajax title="Problem List" name="problem_details" :multiple="true" />
     </x-modal-form>
 
 
@@ -59,21 +63,44 @@
     <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}" ></script>
     <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
     <script>
+
         var dtTable;
         $(document).ready(function() {
 
             //Data Table
             dtTable = $('#table-data').DataTable({
+                responsive : true,
+                'fnDrawCallback' : function(oSettings){
+                    JsBarcode(".barcode").init();
+                },
+                'fnInitComplete' : function(oSettings, json) {
+                    JsBarcode(".barcode").init();
+                },
                 processing : true,
                 serverSide : true,
                 ajax : 'device/data',
                 columns : [
                     {data : 'DT_RowIndex', name : 'DT_RowIndex', "width" : "5%"},
                     {data : 'device_code', name : 'device_code'},
+                    {data : null, name : null},
                     {data : 'device_model', name : 'device_model'},
                     {data : 'id', name: 'id'}
                 ],
                 columnDefs : [
+                    {
+                        data : null,
+                        targets : 2,
+                        searchable : false,
+                        orderable : false,
+                        render:function(data,type,row) {
+                            return '<svg class="barcode"'
+                                        +'jsbarcode-format="auto"'
+                                        +'jsbarcode-value=\''+ row.device_code +'\''
+                                        +'jsbarcode-textmargin="0"'
+                                        +'jsbarcode-width="1"'
+                                        +'jsbarcode-fontoptions="bold">'
+                        }
+                    },
                     {
                         targets : -1,
                         data : null,
@@ -92,6 +119,12 @@
                 ]
             })
 
+            dtTable.on('responsive-display', function() {
+                JsBarcode(".barcode").init();
+            })
+
+
+
             $(document).on('click', '.btn-edit', function() {
                 const form = $(this).attr('data-id')
                 $('#modalTitle').html('Edit Data Device')
@@ -99,6 +132,8 @@
                 $('.form-control[name="device_model"]').val(JSON.parse(form).device_model)
                 $('.form-control[name="spesification"]').val(JSON.parse(form).spesification)
                 $('.form-control[name="notes"]').val(JSON.parse(form).notes)
+                optionData('/api/problem-details/select-data', 'select#problem_details', JSON.parse(form).assignment_problem_details_id, true)
+                $('select#problem_details').trigger('change')
                 $('#data-form-modal-table').attr('action', '/device/' + JSON.parse(form).id)
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-edit")
@@ -108,6 +143,8 @@
                 $('#data-form-modal-table')[0].reset()
                 $('#modalTitle').html('Buat Data Device')
                 $('#data-form-modal-table').attr('action', '/device')
+                optionData('/api/problem-details/select-data', 'select#problem_details', null, true)
+                $('select#problem_details').trigger('change')
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-new")
             })

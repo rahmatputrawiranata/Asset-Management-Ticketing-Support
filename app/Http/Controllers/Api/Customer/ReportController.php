@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Models\Device;
 use App\Models\Report;
 use App\Models\ReportProgress;
 use Exception;
@@ -13,6 +14,29 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends ApiController
 {
+
+    // function for finding device base barcode
+    public function findDevice(Request $request) {
+        $this->validate($request, [
+            'device_code' => 'required|exists:devices,device_code'
+        ]);
+
+        if(!$model = Device::where('device_code', $request->device_code)->first()) {
+            return $this->respondFail('Device Not Found!!');
+        }
+
+        return $this->respondSuccess('success', $model);
+    }
+
+    //get all error is affiliate to device
+    public function getAffiliateErrorFromDevice(Request $request) {
+        $this->validate($request, [
+            'device_code' => 'required|exists:devices,device_code'
+        ]);
+
+    }
+
+    // create report to admin
     public function create(Request $request) {
         $this->validate($request, [
             'device_id' => 'required|integer',

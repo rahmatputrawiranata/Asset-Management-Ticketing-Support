@@ -19,7 +19,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="d-flex flex-column flex-sm-column flex-md-row justify-content-md-between">
-                    <h6 class="m-0 font-weight-bold text-primary">{{__('Data Kota')}}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{__('Cities')}}</h6>
                     <div>
                         <button class="btn btn-primary btn-add btn-icon-split" type="button" >
                             <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
@@ -32,10 +32,10 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
-                        <th>Negara</th>
-                        <th>Provinsi</th>
-                        <th>Kota</th>
-                        <th>SDS</th>
+                        <th>Country</th>
+                        <th>Province</th>
+                        <th>City</th>
+                        <th>Same Day Service</th>
                         <th class="action-data">Action</th>
                     </thead>
                     <tbody>
@@ -45,10 +45,14 @@
         </div>
     </div>
 
-    <x-modal-form name="Data Negara Kita">
-        <x-forms.select-ajax title="Negara" name="country" />
-        <x-forms.select-ajax title="Provinsi" name="provinsi" />
-        <x-forms.text title="Nama Kota" name="name" />
+    <x-modal-form name="City">
+        <x-forms.select-ajax title="Country" name="country" />
+        <x-forms.select-ajax title="Province" name="provinsi" />
+        <x-forms.text title="Name" name="name" />
+        <x-forms.select title="is Same Day Service" name="is_fast_service">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </x-forms.select>
     </x-modal-form>
 
 
@@ -112,7 +116,7 @@
                 const countries_id = JSON.parse(form).countries_id
                 const provinces_id = JSON.parse(form).regions_id
 
-                $('#modalTitle').html('Edit Data Kota')
+                $('#modalTitle').html('Edit City')
                 $('.form-control[name="name"]').val(JSON.parse(form).name)
                 optionData('/api/data-lokasi/country/select-data', 'select#country', countries_id)
                 optionData('/api/data-lokasi/province/select-data/' + countries_id, 'select#provinsi', provinces_id)
@@ -120,19 +124,25 @@
                 $('#modal-form-centered').modal('show')
                 $('select#province').val(JSON.parse(form).regions_id)
                 $('select#province').trigger('change')
+                $('select#is_fast_service').val(JSON.parse(form).is_fast_service)
+                $('select#is_fast_service').trigger('change')
                 $('#btn-save').addClass("btn-save-edit")
             })
 
             $(document).on('click', '.btn-add', function() {
                 $('#data-form-modal-table')[0].reset()
-                $('#modalTitle').html('Buat Data Kota')
+                $('#modalTitle').html('Create City')
                 optionData('/api/data-lokasi/country/select-data', 'select#country')
                 $('select#provinsi').html('<option selected="true" disabled="disabled">Choose Data</option>')
                 $('#data-form-modal-table').attr('action', '/data-lokasi/city')
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-new")
+                $('select#country').val()
+                $('select#country').trigger('change')
                 $('select#province').val()
                 $('select#province').trigger('change')
+                $('select#is_fast_service').val()
+                $('select#is_fast_service').trigger('change')
             })
 
             //Update On Select

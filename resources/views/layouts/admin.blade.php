@@ -119,7 +119,7 @@
 <script src="{{asset('vendor/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+<script src="{{asset('vendor/barcode/JSBarcode.all.min.js')}}"></script>
 
 <script>
     $(document).ready(function() {
@@ -128,6 +128,8 @@
         });
     })
 
+    JsBarcode(".barcode").init();
+
 
     function optionData(url, id, selected = null, multiple = false) {
         var el = id;
@@ -135,19 +137,33 @@
             url : url,
             method : 'GET',
             beforeSend : function() {
-                if(selected !== null) {
+                if(multiple){
                     $(el).html('<option disabled="disabled" value="0">Chose Data</option>')
-                }else if(!multiple){
+                }else if(selected !== null && !multiple){
                     $(el).html('<option disabled="disabled" value="0">Chose Data</option>')
-                }else{
+                }else if(selected === null && !multiple){
                     $(el).html('<option selected="true" disabled="disabled">Choose Data</option>')
                 }
+                // if(selected !== null && !multiple) {
+                //     $(el).html('<option disabled="disabled" value="0">Chose Data</option>')
+                // }else if(multiple && selected !== null) {
+                //     $(el).html('<option disabled="disabled" value="0">Chose Data</option>')
+                // }else if(selected === null && !multiple) {
+                //     $(el).html('<option selected="true" disabled="disabled">Choose Datas</option>')
+                // }else if(!selected && multiple) {
+
+                // }
             },
             success : function(res) {
                 let data = res.data;
                 data.forEach(element => {
-                    if(selected !== null && element.value === selected) {
+                    // alert(selected);
+                    if(multiple && selected !== null && selected.includes(element.value)){
                         $(el).append('<option value="' + element.value + '" selected="selected">' + element.title + '</option>')
+                    }else if(selected !== null && element.value === selected && !multiple) {
+                        $(el).append('<option value="' + element.value + '" selected="selected">' + element.title + '</option>')
+                    }else if(multiple && selected === null) {
+                        $(el).append('<option value="' + element.value + '">' + element.title + '</option>')
                     }else{
                         $(el).append('<option value="' + element.value + '">' + element.title + '</option>')
                     }

@@ -73,6 +73,7 @@ class CityController extends Controller
             $data = City::find($id);
             $data->regions_id = $request->provinsi;
             $data->name = $request->name;
+            $data->is_fast_service = $request->is_fast_service;
             $data->save();
         }catch(Exception $e) {
             DB::rollback();

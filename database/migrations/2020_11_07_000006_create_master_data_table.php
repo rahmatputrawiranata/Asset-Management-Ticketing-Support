@@ -17,7 +17,7 @@ class CreateMasterDataTable extends Migration
             $table->id();
             $table->string('type');
             $table->string('key')->index()->unique();
-            $table->string('parent_key');
+            $table->string('parent_key')->nullable();
             $table->string('value_type');
             $table->longText('value');
             $table->string('status')->default(1);
