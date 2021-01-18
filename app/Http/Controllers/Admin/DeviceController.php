@@ -85,7 +85,7 @@ class DeviceController extends Controller
             return response()->json([
                 'status' => 'error',
                 'status_code' => '500',
-                'message' => 'Unknow Error!!',
+                'message' => $e->getMessage(),
                 'data' => []
             ], 500);
         }
@@ -101,7 +101,7 @@ class DeviceController extends Controller
     public function delete(Request $request) {
         DB::beginTransaction();
         try{
-            $data = Device::find($request->id);
+            $data = Device::findOrFail($request->id);
             $data->delete();
         }catch(Exception $e) {
             DB::rollback();
