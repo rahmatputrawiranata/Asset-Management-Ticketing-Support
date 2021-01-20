@@ -26,7 +26,6 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
-                        <th>No. </th>
                         <th>City</th>
                         <th data-priority="1">Branch</th>
                         <th>Status</th>
@@ -72,7 +71,6 @@
                 serverSide : true,
                 ajax : 'report/data',
                 columns : [
-                    {data : 'DT_RowIndex', name : 'DT_RowIndex', "width" : "5%"},
                     {data : 'city', name : 'city'},
                     {data : 'branch', name : 'branch'},
                     {data : 'status', name : 'status'},

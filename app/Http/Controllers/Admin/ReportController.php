@@ -17,7 +17,6 @@ class ReportController extends Controller
 
         return datatables()
                 ->eloquent($model)
-                ->addIndexColumn()
                 ->addColumn('city', function($q) {
                     $data = $q->branch->city->withTrashed();
                     return $data->name;
