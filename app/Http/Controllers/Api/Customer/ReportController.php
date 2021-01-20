@@ -33,12 +33,12 @@ class ReportController extends ApiController
         $this->validate($request, [
             'device_code' => 'required|exists:devices,device_code'
         ]);
-        
-        
+
+
     }
 
     // create report to admin
-    public function create(Request $request) {
+    public function createReport(Request $request) {
         $this->validate($request, [
             'device_id' => 'required|integer',
         ]);
