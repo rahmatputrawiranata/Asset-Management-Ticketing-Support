@@ -59,8 +59,9 @@ class ReportController extends ApiController
 
             $rProgress = new ReportProgress();
             $rProgress->report_id = $model->id;
-            $rProgress->progress_code = 1;
+            $rProgress->progress_code = 'report_progress_start';
             $rProgress->status = 1;
+            $rProgress->user = $user->id;
             $rProgress->save();
 
         }catch(Exception $e) {
