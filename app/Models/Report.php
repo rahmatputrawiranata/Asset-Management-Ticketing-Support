@@ -15,10 +15,12 @@ class Report extends Model
         static::addGlobalScope('has-region', function(Builder $builder) {
             $builder->has('customer')
                     ->has('branch')
-                    ->has('worker')
-                    ->has('device')
-                    ->has('kindOfDamageType');
+                    ->has('reportProgress');
         });
+    }
+
+    public function reportProgressActive() {
+        return $this->reportProgress()->where('status', 1)->first();
     }
 
     public function reportProgress() {
