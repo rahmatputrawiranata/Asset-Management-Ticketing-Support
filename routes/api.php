@@ -62,6 +62,7 @@ Route::group(['namespace' => 'Api\Customer', 'prefix' => 'customer'], function (
         Route::group(['prefix' => 'report'], function() {
             Route::post('/check-device', 'DeviceController@findDevice');
             Route::post('/create-report', 'ReportController@createReport');
+            Route::get('/all', 'ReportController@all');
         });
     });
 });

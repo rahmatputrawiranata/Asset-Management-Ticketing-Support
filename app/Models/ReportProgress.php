@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ReportProgress extends Model
 {
     use SoftDeletes;
+
+    public function masterData() {
+        return $this->belongsTo(MasterData::class, 'progress_code', 'key');
+    }
 }

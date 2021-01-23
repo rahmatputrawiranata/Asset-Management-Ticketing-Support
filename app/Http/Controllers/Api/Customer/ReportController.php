@@ -64,12 +64,33 @@ class ReportController extends ApiController
             $rProgress->user = $user->id;
             $rProgress->save();
 
+
+
         }catch(Exception $e) {
             DB::rollback();
             return $this->respondFail($e->getMessage());
         }
         DB::commit();
         return $this->respondSuccess();
+
+    }
+
+    public function all(Request $request) {
+        $this->validate($request, [
+            'limit' => 'nullable|integer'
+        ]);
+
+        $limit = $request->input('limit', 10);
+
+        $user = Auth::user();
+
+        $model = Report::query()
+                    ->where('customer_id', $user->id)
+                    ->with(['branch', 'reportProgress.masterData', 'worker'])
+                    ->orderBy('created_at')
+                    ->paginate($limit);
+
+        return $this->respondSuccess('Success!!', $model);
 
     }
 }
