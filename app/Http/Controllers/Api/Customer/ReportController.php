@@ -86,7 +86,13 @@ class ReportController extends ApiController
 
         $model = Report::query()
                     ->where('customer_id', $user->id)
-                    ->with(['branch', 'reportProgress.masterData', 'worker'])
+                    ->with([
+                        'branch',
+                        'reportProgress.masterData',
+                        'worker',
+                        'device',
+                        'kindOfDamageType'
+                    ])
                     ->orderBy('created_at')
                     ->paginate($limit);
 
