@@ -19,8 +19,12 @@ class Report extends Model
         });
     }
 
-    public function reportProgressActive() {
-        return $this->reportProgress()->where('status', 1)->first();
+    protected $appends = [
+        'report_progress_active'
+    ];
+
+    public function getReportProgressActiveAttribute() {
+        return $this->reportProgress()->where('status', 1)->first()->masterData;
     }
 
     public function reportProgress() {
