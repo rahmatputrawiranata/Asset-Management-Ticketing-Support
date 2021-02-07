@@ -12,49 +12,40 @@ class ProgressCodeMasterDataSeeder extends Seeder
      */
     public function run()
     {
+
+        MasterData::where('type', 'report_progress')->truncate();
+
         $data = array(
             [
                 'type' => 'report_progress',
                 'key' => 'report_progress_start',
                 'value_type' => 'string',
-                'value' => 'Report Start'
+                'value' => 'Report tickets are generated'
             ],
             [
                 'type' => 'report_progress',
-                'key' => 'report_progress_customer_service_start_contact_customer',
+                'key' => 'report_progress_validation_by_Admin',
                 'value_type' => 'string',
-                'value' => 'Customer Service Start Contact Customer'
-            ],
-            [
-                'type' => 'report_progress',
-                'key' => 'report_progress_customer_service_finish_contact_customer',
-                'value_type' => 'string',
-                'value' => 'Customer Service Finish Contact Customer',
+                'value' => 'Validation problems or damage by Admin Service'
             ],
             [
                 'type' => 'report_progress',
                 'key' => 'report_progress_system_deploy_worker',
                 'value_type' => 'string',
-                'value' => 'System Find and Deploy Worker to Customer'
+                'value' => 'The system is looking for a technician'
             ],
             [
                 'type' => 'report_progress',
-                'key' => 'report_progress_system_failed_deploy_worker',
+                'key' => 'report_progress_technician_found',
                 'value_type' => 'string',
-                'value' => 'System Failed Deploy Worker Please Wait Until Admin Assign New Worker',
-            ],
-            [
-                'type' => 'report_progress',
-                'key' => 'report_progress_worker_report_finising_job',
-                'value_type' => 'string',
-                'value' => 'Worker Report Job is Finished'
+                'value' => 'Technician found, estimated time to location at '
             ],
             [
                 'type' => 'report_progress',
                 'key' => 'report_progress_done',
                 'value_type' => 'string',
-                'value' => 'job is Finished'
-            ]
+                'value' => 'Report ticket is close'
+            ],
         );
 
         MasterData::insert($data);

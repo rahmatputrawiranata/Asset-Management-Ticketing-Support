@@ -22,7 +22,7 @@
         <li class="nav-item {{ Nav::isRoute('customer') }}">
             <a class="nav-link" href="{{ route('customer') }}">
                 <i class="fas fa-fw fa-user"></i>
-                <span>{{ __('Partner') }}</span></a>
+                <span>{{ __('Customer') }}</span></a>
         </li>
 
         <li class="nav-item {{ Nav::isRoute('worker') }}">
@@ -34,7 +34,7 @@
         <li class="nav-item {{ Nav::isRoute('report') }}">
             <a class="nav-link" href="{{ route('report') }}">
                 <i class="fas fa-fw fa-address-card"></i>
-                <span>{{ __('Report') }}</span></a>
+                <span>{{ __('Report Ticket') }}</span></a>
         </li>
 
 

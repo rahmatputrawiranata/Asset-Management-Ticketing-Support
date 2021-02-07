@@ -82,6 +82,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     });
 
+    Route::group(['prefix' => 'report', 'namespace' => 'Admin'], function() {
+        Route::get('/', 'ReportController@index')->name('report');
+        Route::get('/data', 'ReportController@data')->name('report.data');
+        Route::post('/update', 'ReportController@update')->name('report.update');
+    });
+
     Route::group(['prefix' => 'data-lokasi'], function () {
         Route::group(['prefix' => 'country', 'namespace' => 'Admin'], function() {
             Route::get('/', 'CountryController@index')->name('country');
@@ -116,10 +122,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/{id}', 'BranchController@update')->name('branch.update');
         });
 
-        Route::group(['prefix' => 'report', 'namespace' => 'Admin'], function() {
-            Route::get('/', 'ReportController@index')->name('report');
-            Route::get('/data', 'ReportController@data')->name('report.data');
-        });
+
     });
 
 });

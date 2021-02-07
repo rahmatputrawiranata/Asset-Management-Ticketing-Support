@@ -26,6 +26,7 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
+                        <th>Ticket No</th>
                         <th>City</th>
                         <th data-priority="1">Branch</th>
                         <th>Status</th>
@@ -40,17 +41,7 @@
     </div>
 
     <x-modal-form name="Set">
-        <x-forms.text title="Full Name" name="full_name" />
-        <x-forms.text title="Username" name="username" />
-        <x-forms.text title="phone" name="phone" />
-        <x-forms.text title="Email" name="email" />
-        <x-forms.password title="Password" name="password" />
-        <x-forms.password title="Password Confirmation" name="password_confirmation" />
-        <x-forms.select-ajax title="Kota" name="city" :multiple="true" />
-        <x-forms.select title="Worker Type" name="type">
-            <option value="internal">Internal</option>
-            <option value="external">Mitra</option>
-        </x-forms.select>
+        //
     </x-modal-form>
 
 
@@ -71,10 +62,11 @@
                 serverSide : true,
                 ajax : 'report/data',
                 columns : [
+                    {data: 'ticket_no', name: 'ticket_no'},
                     {data : 'city', name : 'city'},
                     {data : 'branch', name : 'branch'},
                     {data : 'status', name : 'status'},
-                    {data : 'create_at', name : 'created_at'},
+                    {data : 'created_at', name : 'created_at'},
 
                     {data : 'id', name: 'id'}
                 ],
@@ -86,12 +78,22 @@
                         searchable : false,
                         orderable : false,
                         render : function(data, type, row) {
-                            return  '<button class="btn btn-edit btn-circle btn-sm btn-primary" data-id=\'' + JSON.stringify(row) + '\'>'
-                                    +'<i class="fas fa-pen"></i>'
-                                    +'</button> '
-                                    +'<button class="btn data-form-delete-button btn-sm btn-circle btn-danger" data-action="/device/delete" data-id=\'' + JSON.stringify(row) + '\'>'
-                                    +'<i class="fas fa-trash"></i>'
-                                    +'</button>'
+                            const callButton =  '<button class="btn btn-call btn-circle btn-sm btn-success" data-id=\'' + JSON.stringify(row) + '\' data-status="report_progress_customer_service_start_contact_customer" data-action="report/update">'
+                                        +'<i class="fas fa-phone"></i>'
+                                    +'</button>';
+
+                            const hangButton =  '<button class="btn btn-process btn-circle btn-sm btn-danger" data-id=\'' + JSON.stringify(row) + '\' data-status="" data-action="report/update">'
+                                        +'<i class="fas fa-phone"></i>'
+                                    +'</button>';
+
+                            if(row.status_value == 'report_progress_start'){
+                                return callButton
+                            }else if(row.status_value == 'report_progress_customer_service_start_contact_customer') {
+                                return hangButton
+                            }
+
+                            return '';
+
                         }
                     }
                 ]
@@ -151,13 +153,12 @@
 
             //Delete Function Global
 
-            $(document).on('click', 'button.data-form-delete-button', function(e) {
+            $(document).on('click', 'button.btn-call', function(e) {
                 e.preventDefault()
 
                 Swal.fire({
                     icon : 'warning',
-                    title : 'Konfirmasi Delete Data',
-                    text : 'Apakah anda yakin ingin menghapus data ini!!',
+                    title : 'Update Report Status ?',
                     preConfirm : (res) => {
                     return fetch($(this).data('action'), {
                         method : 'POST',
@@ -167,18 +168,19 @@
                         // 'Content-Type': 'application/x-www-form-urlencoded',
                         },
                         body : JSON.stringify({
-                            id : $(this).data('id').id
+                            id : $(this).data('id').id,
+                            progress_code : $(this).data('status'),
                         })
                     })
                     .then(res => {
                         if(!res.ok) {
                             throw new Error(res.statusText)
                         }
-                        toastr.success('Successfully Delete Data!!')
+                        toastr.success('Successfully Update Report Status!!')
                         dtTable.draw()
                     })
                     .catch(err => {
-                        toastr.error("Error Deleting data!!")
+                        toastr.error("Error Updating Report Status!!")
                     })
                 }
                 })
