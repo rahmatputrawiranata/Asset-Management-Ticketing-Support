@@ -27,7 +27,7 @@ class ChangeTableDescriptions extends Migration
     public function down()
     {
         Schema::table('report_progress', function (Blueprint $table) {
-            //
+            $table->dropColumn(['notes', 'descriptions']);
         });
     }
 }

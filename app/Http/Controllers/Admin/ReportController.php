@@ -76,16 +76,36 @@ class ReportController extends Controller
             $model->kind_of_damage_type_id = $request->kind_of_damage_type_id ?? $model->kind_of_damage_type_id;
             $model->report_notes = $request->report_notes ?? $model->report_notes;
             $model->save();
+            ReportProgress::where('report_id', $model->id)->update(['status' => 2]);
 
             if($request->progress_code === 'report_progress_validation_by_Admin') {
 
-                ReportProgress::where('report_id', $model->id)->update(['status' => 2]);
+
 
                 $rProgress = new ReportProgress();
                 $rProgress->report_id = $model->id;
                 $rProgress->progress_code = $request->progress_code;
                 $rProgress->descriptions = $request->descriptions;
                 $rProgress->notes = $request->notes;
+                $rProgress->user = 1;
+                $rProgress->save();
+            }
+
+            if($request->progress_code === 'report_progress_system_deploy_worker'){
+
+
+                if($request->notes){
+                    $notes = json_encode(array(
+                        'author' => 'admin',
+                        'data' => $request->notes,
+                    ));
+                }
+
+                $rProgress = new ReportProgress();
+                $rProgress->report_id = $model->id;
+                $rProgress->progress_code = $request->progress_code;
+                $rProgress->descriptions = $request->descriptions;
+                $rProgress->notes = $notes;
                 $rProgress->user = 1;
                 $rProgress->save();
             }

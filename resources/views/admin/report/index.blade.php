@@ -42,7 +42,14 @@
     </div>
 
     <x-modal-form name="Process Report">
-        <x-forms.select-ajax title="Problem Details" name="problem_details"/>
+        <input type="hidden" name="id"/>
+        <input type="hidden" name="progress_code"/>
+        <x-forms.select title="Select Resolution" name="resolution">
+            <option value="report_progress_system_deploy_worker">Looking for Technician</option>
+            <option value="report_progress_done">Set To Finish</option>
+        </x-forms.select>
+        <x-forms.select-ajax title="Problem Details" name="kind_of_damage_type_id"/>
+        <x-forms.text-area title="Note" name="notes"/>
     </x-modal-form>
 
 
@@ -83,14 +90,18 @@
                                         +'<i class="fas fa-phone"></i>'
                                     +'</button>';
 
-                            const hangButton =  '<button class="btn btn-process btn-sm btn-primary" data-id=\'' + JSON.stringify(row) + '\' data-status="" data-action="report/update">'
+                            const processButton =  '<button class="btn btn-process btn-sm btn-primary" data-id=\'' + JSON.stringify(row) + '\' data-status="report_progress_system_deploy_worker" data-action="report/update">'
                                         +'Process Report'
                                     +'</button>';
 
                             if(row.status_value == 'report_progress_start'){
                                 return callButton
                             }else if(row.status_value == 'report_progress_validation_by_Admin') {
-                                return hangButton
+                                return processButton
+                            }else if(row.status_value == 'report_progress_system_deploy_worker'){
+                                return '<a href="#" class="btn btn-danger" btn-sm btn-primary">in Qeueu Worker</a>'
+                            }else if(row.status_value == 'report_progress_done'){
+                                return '<a href="#" class="btn btn-success" btn-sm btn-primary">Finish</a>'
                             }
 
                             return '';
@@ -103,22 +114,13 @@
             $(document).on('click', '.btn-process', function() {
                 const form = $(this).attr('data-id')
                 const formData = JSON.parse(form)
-                $('#modalTitle').html('Process Report')
-                optionData('/api/problem-details/select-data/' + formData.device_id, 'select#problem_details', formData.kind_of_damage_type_id)
-                $('#modal-form-centered').modal('show')
-                $('#data-form-modal-table').attr('action', '/worker')
-            })
-
-            $(document).on('click', '.btn-add', function() {
+                $("input[name='id']").val(formData.id)
+                $("input[name='progress_code']").val($(this).attr('data-status'))
                 $('#data-form-modal-table')[0].reset()
-                $('#modalTitle').html('Create Technician')
-                optionData('/api/data-lokasi/city/select-data', 'select#city', null, true)
-                $('select#city').trigger('change')
-                $('select#type').val()
-                $('select#type').trigger('change')
-                $('#data-form-modal-table').attr('action', '/worker')
+                $('#modalTitle').html('Process Report')
+                optionData('/api/problem-details/select-data/' + formData.device_id, 'select#kind_of_damage_type_id', formData.kind_of_damage_type_id)
                 $('#modal-form-centered').modal('show')
-                $('#btn-save').addClass("btn-save-new")
+                $('#data-form-modal-table').attr('action', '/report/update')
             })
 
             //Create or Update Global
