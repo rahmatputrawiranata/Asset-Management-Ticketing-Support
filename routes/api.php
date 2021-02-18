@@ -40,7 +40,7 @@ Route::group(['namespace' => 'Api'], function() {
     });
 
     Route::group(['prefix' => 'problem-details'], function() {
-        Route::get('/select-data', 'ProblemDetailController@selectData');
+        Route::get('/select-data/{id}', 'ProblemDetailController@selectDataByDevice');
     });
 });
 
@@ -50,6 +50,7 @@ Route::group(['namespace' => 'Api\Customer', 'prefix' => 'customer'], function (
         Route::post('login', 'AuthController@login');
         Route::post('register', 'AuthController@register');
     });
+
 
     Route::group(['middleware' => 'auth:customer'], function() {
         //Profile Customer

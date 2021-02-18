@@ -144,15 +144,6 @@
                 }else if(selected === null && !multiple){
                     $(el).html('<option selected="true" disabled="disabled">Choose Data</option>')
                 }
-                // if(selected !== null && !multiple) {
-                //     $(el).html('<option disabled="disabled" value="0">Chose Data</option>')
-                // }else if(multiple && selected !== null) {
-                //     $(el).html('<option disabled="disabled" value="0">Chose Data</option>')
-                // }else if(selected === null && !multiple) {
-                //     $(el).html('<option selected="true" disabled="disabled">Choose Datas</option>')
-                // }else if(!selected && multiple) {
-
-                // }
             },
             success : function(res) {
                 let data = res.data;

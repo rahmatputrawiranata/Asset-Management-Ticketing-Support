@@ -31,6 +31,7 @@
                         <th data-priority="1">Branch</th>
                         <th>Status</th>
                         <th>Report At</th>
+                        <th>Item Problem</th>
                         <th class="action-data">Action</th>
                     </thead>
                     <tbody>
@@ -40,8 +41,8 @@
         </div>
     </div>
 
-    <x-modal-form name="Set">
-        //
+    <x-modal-form name="Process Report">
+        <x-forms.select-ajax title="Problem Details" name="problem_details"/>
     </x-modal-form>
 
 
@@ -67,7 +68,7 @@
                     {data : 'branch', name : 'branch'},
                     {data : 'status', name : 'status'},
                     {data : 'created_at', name : 'created_at'},
-
+                    {data: 'item_problem', name : 'item_problem'},
                     {data : 'id', name: 'id'}
                 ],
                 columnDefs : [
@@ -78,17 +79,17 @@
                         searchable : false,
                         orderable : false,
                         render : function(data, type, row) {
-                            const callButton =  '<button class="btn btn-call btn-circle btn-sm btn-success" data-id=\'' + JSON.stringify(row) + '\' data-status="report_progress_customer_service_start_contact_customer" data-action="report/update">'
+                            const callButton =  '<button class="btn btn-call btn-circle btn-sm btn-success" data-id=\'' + JSON.stringify(row) + '\' data-status="report_progress_validation_by_Admin" data-action="report/update">'
                                         +'<i class="fas fa-phone"></i>'
                                     +'</button>';
 
-                            const hangButton =  '<button class="btn btn-process btn-circle btn-sm btn-danger" data-id=\'' + JSON.stringify(row) + '\' data-status="" data-action="report/update">'
-                                        +'<i class="fas fa-phone"></i>'
+                            const hangButton =  '<button class="btn btn-process btn-sm btn-primary" data-id=\'' + JSON.stringify(row) + '\' data-status="" data-action="report/update">'
+                                        +'Process Report'
                                     +'</button>';
 
                             if(row.status_value == 'report_progress_start'){
                                 return callButton
-                            }else if(row.status_value == 'report_progress_customer_service_start_contact_customer') {
+                            }else if(row.status_value == 'report_progress_validation_by_Admin') {
                                 return hangButton
                             }
 
@@ -99,22 +100,13 @@
                 ]
             })
 
-            $(document).on('click', '.btn-edit', function() {
+            $(document).on('click', '.btn-process', function() {
                 const form = $(this).attr('data-id')
-                $('#modalTitle').html('Edit Data Worker')
-                $('.form-control[name="full_name"]').val(JSON.parse(form).full_name)
-                $('.form-control[name="phone"]').val(JSON.parse(form).phone)
-                $('.form-control[name="email"]').val(JSON.parse(form).email)
-                $('.form-control[name="username"]').val(JSON.parse(form).username)
-                $('.form-control[name="password"]').parents('.form-group').hide()
-                $('.form-control[name="password_confirmation"]').parents('.form-group').hide()
-                optionData('/api/data-lokasi/city/select-data', 'select#city', JSON.parse(form).assignment_city_id, true)
-                $('select#city').trigger('change')
-                $('select#type').val(JSON.parse(form).type)
-                $('select#type').trigger('change')
-                $('#data-form-modal-table').attr('action', '/worker/' + JSON.parse(form).id)
+                const formData = JSON.parse(form)
+                $('#modalTitle').html('Process Report')
+                optionData('/api/problem-details/select-data/' + formData.device_id, 'select#problem_details', formData.kind_of_damage_type_id)
                 $('#modal-form-centered').modal('show')
-                $('#btn-save').addClass("btn-save-edit")
+                $('#data-form-modal-table').attr('action', '/worker')
             })
 
             $(document).on('click', '.btn-add', function() {

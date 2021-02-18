@@ -80,6 +80,18 @@ class DeviceController extends Controller
             $data->spesification = $request->spesification;
             $data->notes = $request->notes;
             $data->save();
+
+            DeviceSetUp::where('device_id', $data->id)->delete();
+
+            $data = collect($request->problem_details)->map(function($item, $key) use($data) {
+                $dataDetail = KindOfDamageType::find($item);
+                return [
+                    'device_id' => $data->id,
+                    'kind_of_damage_type_id' => $dataDetail->id,
+                    'item_id' => $dataDetail->item_id,
+                ];
+            });
+            DeviceSetUp::insert($data->toArray());
         }catch(Exception $e) {
             DB::rollback();
             return response()->json([
@@ -91,7 +103,7 @@ class DeviceController extends Controller
         }
         DB::commit();
         return response()->json([
-            'status' => 'error',
+            'status' => 'success',
             'status_code' => 200,
             'message' => 'Success',
             'data' => []

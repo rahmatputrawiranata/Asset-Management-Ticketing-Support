@@ -20,6 +20,38 @@ class ReportController extends Controller
 
         return datatables()
                 ->eloquent($model)
+                ->addColumn('item_problem', function($q){
+                    if($q->kind_of_damage_type_id){
+                        return $q->kindOfDamageType->name;
+                    }
+                    return '';
+                })
+                ->addColumn('problem_detail', function($q){
+                    if($q->kind_of_damage_type_id){
+                        return $q->kindOfDamageType->item->name;
+                    }
+                    return '';
+                })
+                ->addColumn('severity', function($q){
+                    if($q->kind_of_damage_type_id){
+                        return $q->kindOfDamageType->severity->name;
+                    }
+                    return '';
+                })
+                ->addColumn('time_limit', function($q){
+                    if($q->kind_of_damage_type_id){
+                        if($q->kindOfDamageType->category === 'hardware'){
+                            if($q->branch->city->is_fast_service ===1){
+                                return 1440;
+                            }else{
+                                return $q->kindOfDamageType->severity->hardware_time;
+                            }
+                        }else{
+                            return $q->kindOfDamageType->severity->software_time;
+                        }
+                    }
+                    return '';
+                })
                 ->addColumn('city', function($q) {
                     return $q->branch->city->name;
                 })
@@ -45,7 +77,7 @@ class ReportController extends Controller
             $model->report_notes = $request->report_notes ?? $model->report_notes;
             $model->save();
 
-            if($request->progress_code === 'report_progress_customer_service_start_contact_customer') {
+            if($request->progress_code === 'report_progress_validation_by_Admin') {
 
                 ReportProgress::where('report_id', $model->id)->update(['status' => 2]);
 
