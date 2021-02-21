@@ -21,7 +21,9 @@ class ProfileController extends ApiController
     public function index() {
         $user = Auth::user();
 
-        $data = Customer::find($user->id);
+        $data = Customer::query()
+                    ->with('branch.city.region.country')
+                    ->find($user->id);
 
         return $this->respondSuccess('Success', $data);
     }
