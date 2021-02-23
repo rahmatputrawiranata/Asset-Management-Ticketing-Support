@@ -35,7 +35,7 @@
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
                         <th>No. </th>
-                        <th>Device Code</th>
+                        <th>Serial Number</th>
                         <th class="none">Barcode</th>
                         <th>Device Model</th>
                         <th class="action-data">Action</th>
@@ -48,7 +48,7 @@
     </div>
 
     <x-modal-form name="Data Device Kita">
-        <x-forms.text title="Device Code" name="device_code" />
+        <x-forms.text title="Serial Number" name="device_code" />
         <x-forms.text title="Device Model" name="device_model" />
         <x-forms.text-area title="Spesification" name="spesification" />
         <x-forms.text-area title="Notes" name="notes" />
@@ -127,6 +127,7 @@
 
             $(document).on('click', '.btn-edit', function() {
                 const form = $(this).attr('data-id')
+                console.log(form);
                 $('#modalTitle').html('Edit Data Device')
                 $('.form-control[name="device_code"]').val(JSON.parse(form).device_code)
                 $('.form-control[name="device_model"]').val(JSON.parse(form).device_model)
