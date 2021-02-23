@@ -32,6 +32,12 @@ class ReportController extends Controller
                     }
                     return '';
                 })
+                ->addColumn('category_problem_detail', function($q){
+                    if($q->kind_of_damage_type_id){
+                        return $q->kindOfDamageType->category;
+                    }
+                    return '';
+                })
                 ->addColumn('severity', function($q){
                     if($q->kind_of_damage_type_id){
                         return $q->kindOfDamageType->severity->name;
@@ -94,7 +100,8 @@ class ReportController extends Controller
                 $rProgress->progress_code = $request->progress_code;
                 $rProgress->descriptions = $request->descriptions;
                 $rProgress->notes = $request->resolution === 'report_progress_system_deploy_worker' ? $notes : '';
-                $rProgress->user = 2;
+                $rProgress->user = 1;
+                $rProgress->status = 2;
                 $rProgress->save();
 
                 $rProgress2 = new ReportProgress();
@@ -103,6 +110,7 @@ class ReportController extends Controller
                 // $rProgress->descriptions = $request->descriptions;
                 $rProgress2->notes = $request->resolution === 'report_progress_done' ? $notes : '';
                 $rProgress2->user = 1;
+                $rProgress2->status = 2;
                 $rProgress2->save();
             }
 

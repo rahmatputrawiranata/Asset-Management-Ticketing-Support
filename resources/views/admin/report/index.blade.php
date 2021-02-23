@@ -28,11 +28,10 @@
                     <thead>
                         <th>Ticket ID</th>
                         <th>Report Time</th>
-                        <th>City</th>
                         <th data-priority="1">Branch</th>
-
-
                         <th>Item Problem</th>
+                        <th>Category</th>
+                        <th>Severity</th>
                         <th>Status</th>
                         <th class="action-data">Action</th>
                     </thead>
@@ -73,11 +72,12 @@
                 ajax : 'report/data',
                 columns : [
                     {data: 'ticket_no', name: 'ticket_no'},
-                    {data : 'city', name : 'city'},
-                    {data : 'branch', name : 'branch'},
-                    {data : 'status', name : 'status'},
                     {data : 'created_at', name : 'created_at'},
-                    {data: 'item_problem', name : 'item_problem'},
+                    {data : 'branch', name : 'branch'},
+                    {data:  'item_problem', name : 'item_problem'},
+                    {data: 'category_problem_detail', name : 'category_problem_detail'},
+                    {data: 'severity', name : 'severity'},
+                    {data : 'status', name : 'status'},
                     {data : 'id', name: 'id'}
                 ],
                 columnDefs : [
