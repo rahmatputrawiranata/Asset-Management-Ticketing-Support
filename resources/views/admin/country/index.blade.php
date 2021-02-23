@@ -5,7 +5,7 @@
 @endpush
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Negara') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Country') }}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -19,7 +19,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="d-flex flex-column flex-sm-column flex-md-row justify-content-md-between">
-                    <h6 class="m-0 font-weight-bold text-primary">{{__('Data Negara')}}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{__('List Of Country')}}</h6>
                     <div>
                         <button class="btn btn-primary btn-add btn-icon-split" type="button" >
                             <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
@@ -44,7 +44,7 @@
     </div>
 
     <x-modal-form name="Data Negara Kita">
-        <x-forms.text title="Nama Negara" name="name" />
+        <x-forms.text title="Country Name" name="name" />
     </x-modal-form>
 
 
@@ -98,7 +98,7 @@
 
             $(document).on('click', '.btn-add', function() {
                 $('#data-form-modal-table')[0].reset()
-                $('#modalTitle').html('Buat Data Negara')
+                $('#modalTitle').html('Add Country')
                 $('#data-form-modal-table').attr('action', '/data-lokasi/country')
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-new")

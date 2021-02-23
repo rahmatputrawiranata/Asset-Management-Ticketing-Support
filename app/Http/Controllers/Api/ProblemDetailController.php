@@ -29,4 +29,16 @@ class ProblemDetailController extends ApiController
         return $this->respondSuccess('Success!!', $data);
 
     }
+
+    public function byDevice($id){
+        $model = DeviceSetUp::where('device_id', $id)
+                ->join('kind_of_damage_types', 'kind_of_damage_types.id', '=', 'device_set_ups.kind_of_damage_type_id')
+                ->get(DB::raw('kind_of_damage_types.id AS id, kind_of_damage_types.name AS name'));
+        return response()->json([
+            'status' => 'success',
+            'status_code' => 200,
+            'message' => 'Successfully get data',
+            'data' => $model,
+        ]);
+    }
 }

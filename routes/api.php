@@ -42,6 +42,7 @@ Route::group(['namespace' => 'Api'], function() {
     Route::group(['prefix' => 'problem-details'], function() {
         Route::get('/select-data', 'ProblemDetailController@selectData');
         Route::get('/select-data/{id}', 'ProblemDetailController@selectDataByDevice');
+        Route::get('/all/{id}', 'ProblemDetailController@byDevice');
     });
 });
 

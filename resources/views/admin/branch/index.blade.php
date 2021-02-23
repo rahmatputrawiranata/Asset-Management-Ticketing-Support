@@ -2,12 +2,12 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Cabang') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Branch') }}</h1>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="d-flex flex-column flex-sm-column flex-md-row justify-content-md-between">
-                    <h6 class="m-0 font-weight-bold text-primary">{{__('Data Cabang')}}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{__('List Of Branch')}}</h6>
                     <div>
                         <button class="btn btn-primary btn-add btn-icon-split" type="button" >
                             <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
@@ -21,9 +21,9 @@
                 <table class="table table-bordered responsive nowrap" id="table-data" width="100%" cellspacing="0">
                     <thead>
                         <th>#</th>
-                        <th>Kota</th>
-                        <th>Code</th>
-                        <th data-priority="1">Nama Cabang</th>
+                        <th>City</th>
+                        <th>Branch Code</th>
+                        <th data-priority="1">Branch Name</th>
                         <th class="action-data" data-priority="2">Action</th>
                     </thead>
                     <tbody>
@@ -33,13 +33,13 @@
         </div>
     </div>
 
-    <x-modal-form name="Data Cabang">
-        <x-forms.select-ajax title="Negara" name="country" />
-        <x-forms.select-ajax title="Provinsi" name="provinsi" />
-        <x-forms.select-ajax title="Kota" name="kota" />
-        <x-forms.text title="Code" name="code" />
-        <x-forms.text title="Nama Cabang" name="name"/>
-        <x-forms.text-area title="Alamat Detail" name="address"/>
+    <x-modal-form title="List of Branches" name="Data Cabang">
+        <x-forms.select-ajax title="Country" name="country" />
+        <x-forms.select-ajax title="Province" name="provinsi" />
+        <x-forms.select-ajax title="City" name="kota" />
+        <x-forms.text title="Branch Code" name="code" />
+        <x-forms.text title="Branch Name" name="name"/>
+        <x-forms.text-area title="Detail Address" name="address"/>
         <x-forms.map/>
     </x-modal-form>
 
@@ -129,7 +129,7 @@
             $(document).on('click', '.btn-add', function() {
                 $('#data-form-modal-table')[0].reset()
                 optionData('/api/data-lokasi/country/select-data', 'select#country')
-                $('#modalTitle').html('Buat Data Cabang')
+                $('#modalTitle').html('Create New Branch')
                 $('#data-form-modal-table').attr('action', '/data-lokasi/branch')
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-new")
@@ -205,7 +205,7 @@
                 Swal.fire({
                     icon : 'warning',
                     title : 'Konfirmasi Delete Data',
-                    text : 'Apakah anda yakin ingin menghapus data ini!!',
+                    text : 'Apakah anda yakin ingin menghapus data ini?',
                     preConfirm : (res) => {
                     return fetch($(this).data('action'), {
                         method : 'POST',
