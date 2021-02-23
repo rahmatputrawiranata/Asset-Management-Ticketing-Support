@@ -93,7 +93,7 @@ class ReportController extends ApiController
                         'device',
                         'kindOfDamageType'
                     ])
-                    ->orderBy('created_at')
+                    ->orderBy('created_at', 'DESC')
                     ->paginate($limit);
 
         return $this->respondSuccess('Success!!', $model);

@@ -26,12 +26,14 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
-                        <th>Ticket No</th>
+                        <th>Ticket ID</th>
+                        <th>Report Time</th>
                         <th>City</th>
                         <th data-priority="1">Branch</th>
-                        <th>Status</th>
-                        <th>Report At</th>
+
+
                         <th>Item Problem</th>
+                        <th>Status</th>
                         <th class="action-data">Action</th>
                     </thead>
                     <tbody>
@@ -86,11 +88,11 @@
                         searchable : false,
                         orderable : false,
                         render : function(data, type, row) {
-                            const callButton =  '<button class="btn btn-call btn-circle btn-sm btn-success" data-id=\'' + JSON.stringify(row) + '\' data-status="report_progress_validation_by_Admin" data-action="report/update">'
-                                        +'<i class="fas fa-phone"></i>'
+                            const callButton =  '<button class="btn btn-call btn-process  btn-sm btn-success" data-id=\'' + JSON.stringify(row) + '\' data-status="report_progress_validation_by_Admin" data-action="report/update">'
+                                        +'<i class="fas fa-phone"></i> Process Report'
                                     +'</button>';
 
-                            const processButton =  '<button class="btn btn-process btn-sm btn-primary" data-id=\'' + JSON.stringify(row) + '\' data-status="report_progress_system_deploy_worker" data-action="report/update">'
+                            const processButton =  '<button class="btn btn-sm btn-primary" data-id=\'' + JSON.stringify(row) + '\' data-status="report_progress_system_deploy_worker" data-action="report/update">'
                                         +'Process Report'
                                     +'</button>';
 
@@ -147,38 +149,38 @@
 
             //Delete Function Global
 
-            $(document).on('click', 'button.btn-call', function(e) {
-                e.preventDefault()
+            // $(document).on('click', 'button.btn-call', function(e) {
+            //     e.preventDefault()
 
-                Swal.fire({
-                    icon : 'warning',
-                    title : 'Update Report Status ?',
-                    preConfirm : (res) => {
-                    return fetch($(this).data('action'), {
-                        method : 'POST',
-                        headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        // 'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body : JSON.stringify({
-                            id : $(this).data('id').id,
-                            progress_code : $(this).data('status'),
-                        })
-                    })
-                    .then(res => {
-                        if(!res.ok) {
-                            throw new Error(res.statusText)
-                        }
-                        toastr.success('Successfully Update Report Status!!')
-                        dtTable.draw()
-                    })
-                    .catch(err => {
-                        toastr.error("Error Updating Report Status!!")
-                    })
-                }
-                })
-            })
+            //     Swal.fire({
+            //         icon : 'warning',
+            //         title : 'Update Report Status ?',
+            //         preConfirm : (res) => {
+            //         return fetch($(this).data('action'), {
+            //             method : 'POST',
+            //             headers: {
+            //             'Content-Type': 'application/json',
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //             // 'Content-Type': 'application/x-www-form-urlencoded',
+            //             },
+            //             body : JSON.stringify({
+            //                 id : $(this).data('id').id,
+            //                 progress_code : $(this).data('status'),
+            //             })
+            //         })
+            //         .then(res => {
+            //             if(!res.ok) {
+            //                 throw new Error(res.statusText)
+            //             }
+            //             toastr.success('Successfully Update Report Status!!')
+            //             dtTable.draw()
+            //         })
+            //         .catch(err => {
+            //             toastr.error("Error Updating Report Status!!")
+            //         })
+            //     }
+            //     })
+            // })
 
 
         })

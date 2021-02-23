@@ -33,10 +33,10 @@
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
                         <th>No. </th>
-                        <th data-priority="1">name</th>
+                        <th data-priority="1">Name</th>
                         <th>Phone</th>
                         <th>Email</th>
-                        <th>City Assignment</th>
+                        <th>Assignment Region</th>
                         <th>Status</th>
                         <th class="action-data">Action</th>
                     </thead>
@@ -50,11 +50,11 @@
     <x-modal-form name="Data Worker">
         <x-forms.text title="Full Name" name="full_name" />
         <x-forms.text title="Username" name="username" />
-        <x-forms.text title="phone" name="phone" />
+        <x-forms.text title="Phone" name="phone" />
         <x-forms.text title="Email" name="email" />
         <x-forms.password title="Password" name="password" />
         <x-forms.password title="Password Confirmation" name="password_confirmation" />
-        <x-forms.select-ajax title="Kota" name="city" :multiple="true" />
+        <x-forms.select-ajax title="Region" name="city" :multiple="true" />
         <x-forms.select title="Worker Type" name="type">
             <option value="internal">Internal</option>
             <option value="external">Mitra</option>

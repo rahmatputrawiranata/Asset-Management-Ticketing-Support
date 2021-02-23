@@ -5,7 +5,7 @@
 @endpush
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Set Up Kind Of Damage Device') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Problem Details') }}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -19,7 +19,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="d-flex flex-column flex-sm-column flex-md-row justify-content-md-between">
-                    <h6 class="m-0 font-weight-bold text-primary">{{__('Data Set Up Kind Of Damage Device')}}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{__('Problem Details/Indication')}}</h6>
                     <div>
                         <button class="btn btn-primary btn-add btn-icon-split" type="button" >
                             <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
@@ -33,8 +33,8 @@
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
                         <th>No. </th>
-                        <th>Item Details</th>
-                        <th>Item</th>
+                        <th>Problem Details/Indication</th>
+                        <th>Item Problem</th>
                         <th>Category</th>
                         <th>Severity</th>
                         <th class="action-data">Action</th>

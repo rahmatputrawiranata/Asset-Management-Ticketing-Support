@@ -5,7 +5,7 @@
 @endpush
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Csutomer') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Customers') }}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -27,10 +27,10 @@
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
                         <th>No. </th>
-                        <th>name</th>
+                        <th>Name</th>
                         <th>Phone</th>
                         <th>Email</th>
-                        <th>Cabang</th>
+                        <th>Branch</th>
                         <th>Status</th>
                         <th class="action-data">Action</th>
                     </thead>

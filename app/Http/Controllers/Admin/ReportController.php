@@ -82,13 +82,28 @@ class ReportController extends Controller
 
 
 
+                if($request->notes){
+                    $notes = json_encode(array(
+                        'author' => 'admin',
+                        'data' => $request->notes,
+                    ));
+                }
+
                 $rProgress = new ReportProgress();
                 $rProgress->report_id = $model->id;
                 $rProgress->progress_code = $request->progress_code;
                 $rProgress->descriptions = $request->descriptions;
-                $rProgress->notes = $request->notes;
-                $rProgress->user = 1;
+                $rProgress->notes = $request->resolution === 'report_progress_system_deploy_worker' ? $notes : '';
+                $rProgress->user = 2;
                 $rProgress->save();
+
+                $rProgress2 = new ReportProgress();
+                $rProgress2->report_id = $model->id;
+                $rProgress2->progress_code = $request->resolution;
+                // $rProgress->descriptions = $request->descriptions;
+                $rProgress2->notes = $request->resolution === 'report_progress_done' ? $notes : '';
+                $rProgress2->user = 1;
+                $rProgress2->save();
             }
 
             if($request->progress_code === 'report_progress_system_deploy_worker'){
@@ -103,7 +118,7 @@ class ReportController extends Controller
 
                 $rProgress = new ReportProgress();
                 $rProgress->report_id = $model->id;
-                $rProgress->progress_code = $request->progress_code;
+                $rProgress->progress_code = $request->resolution;
                 $rProgress->descriptions = $request->descriptions;
                 $rProgress->notes = $notes;
                 $rProgress->user = 1;

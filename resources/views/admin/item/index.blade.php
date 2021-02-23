@@ -5,7 +5,7 @@
 @endpush
 
 @section('main-content')
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Item') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Item Problem') }}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -19,7 +19,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="d-flex flex-column flex-sm-column flex-md-row justify-content-md-between">
-                    <h6 class="m-0 font-weight-bold text-primary">{{__('Data Item')}}</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">{{__('List Of Item Problem')}}</h6>
                     <div>
                         <button class="btn btn-primary btn-add btn-icon-split" type="button" >
                             <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
@@ -33,7 +33,7 @@
                 <table class="table table-bordered" id="table-data" width="100%" cellspacing="0">
                     <thead>
                         <th>No. </th>
-                        <th>Name</th>
+                        <th>Item Problem</th>
                         <th class="action-data">Action</th>
                     </thead>
                     <tbody>
@@ -44,7 +44,7 @@
     </div>‹
 
     <x-modal-form name="Data Item Kita">
-        <x-forms.text title="name" name="name" />
+        <x-forms.text title="Name" name="name" />
     </x-modal-form>
 
 
@@ -90,7 +90,7 @@
             $(document).on('click', '.btn-edit', function() {
                 const form = $(this).attr('data-id')
                 $('#modalTitle').html('Edit Item Negara')
-                $('.form-control[name="name"]').val(JSON.parse(form).name)
+                $('.form-control[name="Name"]').val(JSON.parse(form).name)
                 $('#data-form-modal-table').attr('action', '/item/' + JSON.parse(form).id)
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-edit")
@@ -98,7 +98,7 @@
 
             $(document).on('click', '.btn-add', function() {
                 $('#data-form-modal-table')[0].reset()
-                $('#modalTitle').html('Buat Data Item')
+                $('#modalTitle').html('Add Item Problem')
                 $('#data-form-modal-table').attr('action', '/item')
                 $('#modal-form-centered').modal('show')
                 $('#btn-save').addClass("btn-save-new")
