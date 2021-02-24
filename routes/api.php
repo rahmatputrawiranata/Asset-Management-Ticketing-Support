@@ -46,26 +46,63 @@ Route::group(['namespace' => 'Api'], function() {
     });
 });
 
-Route::group(['namespace' => 'Api\Customer', 'prefix' => 'customer'], function () {
+Route::group([
+        'namespace' => 'Api\Customer',
+        'prefix' => 'customer',
+        'middleware' => 'customer'
+    ], function () {
 
-    Route::group(['prefix' => 'auth'], function () {
-        Route::post('login', 'AuthController@login');
-        Route::post('register', 'AuthController@register');
-    });
-
-
-    Route::group(['middleware' => 'auth:customer'], function() {
-        //Profile Customer
-        Route::group(['prefix' => 'profile'], function() {
-            Route::get('/', 'ProfileController@index');
-            Route::post('/update', 'ProfileController@update');
-            Route::post('/update-password', 'ProfileController@updatePassword');
+        Route::group(['prefix' => 'auth'], function () {
+            Route::post('login', 'AuthController@login');
+            Route::post('register', 'AuthController@register');
         });
 
-        Route::group(['prefix' => 'report'], function() {
-            Route::post('/check-device', 'DeviceController@findDevice');
-            Route::post('/create-report', 'ReportController@createReport');
-            Route::get('/all', 'ReportController@all');
+
+        Route::group(['middleware' => 'auth:customer'], function() {
+            //Profile Customer
+            Route::group(['prefix' => 'profile'], function() {
+                Route::get('/', 'ProfileController@index');
+                Route::post('/update', 'ProfileController@update');
+                Route::post('/update-password', 'ProfileController@updatePassword');
+            });
+
+            Route::group(['prefix' => 'report'], function() {
+                Route::post('/check-device', 'DeviceController@findDevice');
+                Route::post('/create-report', 'ReportController@createReport');
+                Route::get('/all', 'ReportController@all');
+            });
         });
-    });
+});
+
+Route::group([
+        'namespace' => 'Api\Worker',
+        'prefix' => 'worker',
+        'middleware' => 'worker'
+    ], function () {
+
+        Route::group(['prefix' => 'auth'], function () {
+            Route::post('login', 'AuthController@login');
+            Route::post('register', 'AuthController@register');
+        });
+
+
+        Route::group(['middleware' => 'auth:worker'], function() {
+            //Profile Customer
+            Route::group(['prefix' => 'profile'], function() {
+                Route::get('/', 'ProfileController@index');
+                Route::post('/update', 'ProfileController@update');
+                Route::post('/update-password', 'ProfileController@updatePassword');
+            });
+
+            Route::group(['prefix' => 'setting'], function () {
+                Route::post('set-status', 'SettingController@updateStatus');
+                Route::post('set-current-location', 'SettingController@updateCurrentLocation');
+            });
+
+            Route::group(['prefix' => 'report'], function() {
+                Route::post('/check-device', 'DeviceController@findDevice');
+                Route::post('/create-report', 'ReportController@createReport');
+                Route::get('/all', 'ReportController@all');
+            });
+        });
 });

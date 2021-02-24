@@ -232,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'jwt.customer' => App\Http\Middleware\JWTCustomerMiddleware::class,
+        'jwt.worker' => App\Http\Middleware\JWTCustomerMiddleware::class,
     ],
 
 ];

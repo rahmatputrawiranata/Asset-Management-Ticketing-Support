@@ -46,6 +46,11 @@ return [
             'provider' => 'customers',
             // 'hash' => false,
         ],
+
+        'worker' => [
+            'driver' => 'jwt',
+            'provider' => 'workers',
+        ]
     ],
 
     /*
@@ -74,6 +79,11 @@ return [
         'customers' => [
             'driver' => 'eloquent',
             'model' => App\Models\Customer::class
+        ],
+
+        'workers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Worker::class
         ]
 
         // 'users' => [

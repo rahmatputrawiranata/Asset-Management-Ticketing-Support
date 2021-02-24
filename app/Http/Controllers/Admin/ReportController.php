@@ -110,7 +110,7 @@ class ReportController extends Controller
                 // $rProgress->descriptions = $request->descriptions;
                 $rProgress2->notes = $request->resolution === 'report_progress_done' ? $notes : '';
                 $rProgress2->user = 1;
-                $rProgress2->status = 2;
+                $rProgress2->status = 1;
                 $rProgress2->save();
             }
 
